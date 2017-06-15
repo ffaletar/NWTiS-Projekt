@@ -19,6 +19,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <session-config>
@@ -27,6 +31,46 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>faces/Korisnik/index.jsf</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Stranice korisnika</display-name>
+        <web-resource-collection>
+            <web-resource-name>Korisnik pages</web-resource-name>
+            <description/>
+            <url-pattern>/Korisnik/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>korisnik</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Cjelokupni constraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>Sve</web-resource-name>
+            <description/>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>korisnik</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>REST</display-name>
+        <web-resource-collection>
+            <web-resource-name>REST</web-resource-name>
+            <description/>
+            <url-pattern>/webresources/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+    <security-role>
+        <description/>
+        <role-name>korisnik</role-name>
+    </security-role>
 </web-app>

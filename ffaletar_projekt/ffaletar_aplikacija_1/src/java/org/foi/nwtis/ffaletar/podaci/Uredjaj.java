@@ -16,6 +16,9 @@ public class Uredjaj {
     private int id;
     private String naziv;
     private Lokacija geoloc;
+    private int status;
+    private String vrijemePromjene;
+    private String vrijemeKreiranja;
 
     public Uredjaj() {
     }
@@ -25,6 +28,17 @@ public class Uredjaj {
         this.naziv = naziv;
         this.geoloc = geoloc;
     }
+
+    public Uredjaj(int id, String naziv, Lokacija geoloc, int status, String vrijemePromjene, String vrijemeKreiranja) {
+        this.id = id;
+        this.naziv = naziv;
+        this.geoloc = geoloc;
+        this.status = status;
+        this.vrijemePromjene = vrijemePromjene;
+        this.vrijemeKreiranja = vrijemeKreiranja;
+    }
+    
+    
 
     public Lokacija getGeoloc() {
         return geoloc;
@@ -49,4 +63,28 @@ public class Uredjaj {
     public void setNaziv(String naziv) {
         this.naziv = naziv;
     }        
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getVrijemePromjene() {
+        return vrijemePromjene;
+    }
+
+    public void setVrijemePromjene(String vrijemePromjene) {
+        this.vrijemePromjene = vrijemePromjene;
+    }
+
+    public String getVrijemeKreiranja() {
+        return vrijemeKreiranja;
+    }
+
+    public void setVrijemeKreiranja(String vrijemeKreiranja) {
+        this.vrijemeKreiranja = vrijemeKreiranja;
+    }
 }

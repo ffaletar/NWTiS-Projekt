@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/ffaletar_aplikacija_1"/>
+<Context path="/ffaletar_aplikacija_1">
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+   dataSourceName="jdbc/nwtis_ffaletar_bp_1"
+   userTable="users" userNameCol="user_name" userCredCol="user_pass"
+   userRoleTable="user_roles" roleNameCol="role_name"/>
+</Context>

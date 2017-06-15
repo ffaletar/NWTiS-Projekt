@@ -23,6 +23,8 @@ public class KonfiguracijaHelper {
     private static String mailAdresaPosiljatelja;
     private static String mailAdresaPrimatelja;
     private static String mailPredmet;
+    private static String IoTMasterKorisnik;
+    private static String IoTMasterLozinka;
     
     private static Konfiguracija konfiguracija;
 
@@ -71,5 +73,15 @@ public class KonfiguracijaHelper {
     public static String getMailPredmet() {
         return konfiguracija.dajPostavku("mailPredmet");
     }
+
+    public static String getIoTMasterKorisnik() {
+        return konfiguracija.dajPostavku("IoTMasterKorisnik");
+    }
+
+    public static String getIoTMasterLozinka() {
+        return konfiguracija.dajPostavku("IoTMasterLozinka");
+    }
+    
+    
     
 }

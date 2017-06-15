@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 import org.foi.nwtis.ffaletar.dretve.PreuzmiMeteoPodatke;
 import org.foi.nwtis.ffaletar.podaci.Uredjaj;
 import org.foi.nwtis.ffaletar.soap.klijenti.IoT_Master;
+import org.foi.nwtis.ffaletar.soap.klijenti.StatusUredjaja;
 
 /**
  *
@@ -94,48 +95,65 @@ public class Obrada {
     }
 
     public String IoTMasterStart(String korisnickoIme, String korisnickaLozinka) {
-        //registrirajGrupuIoT
-        
         boolean grupaRegistrirana = IoT_Master.registrirajGrupuIoT(korisnickoIme, korisnickaLozinka);
-        
-        return null;
+
+        if (grupaRegistrirana) {
+            return getOK10();
+        } else {
+            return getERR20();
+        }
     }
 
-    public String IoTMasterStop() {
-        //deregistrirajGrupuIoT
-        return null;
+    public String IoTMasterStop(String korisnickoIme, String korisnickaLozinka) {
+
+        boolean grupaDeregistrirana = IoT_Master.deregistrirajGrupuIoT(korisnickoIme, korisnickaLozinka);
+        if (grupaDeregistrirana) {
+            return getOK10();
+        } else {
+            return getERR21();
+        }
     }
 
-    public String IoTMasterWork() {
-        //aktivirajGrupuIoT
-        return null;
+    public String IoTMasterWork(String korisnickoIme, String korisnickaLozinka) {
+        boolean grupaPokrenuta = IoT_Master.aktivirajGrupuIoT(korisnickoIme, korisnickaLozinka);
+        if (grupaPokrenuta) {
+            return getOK10();
+        } else {
+            return getERR22();
+        }
     }
 
-    public String IoTMasterWait() {
-        //blokirajGrupuIoT
-        return null;
+    public String IoTMasterWait(String korisnickoIme, String korisnickaLozinka) {
+        boolean grupaBlokirana = IoT_Master.blokirajGrupuIoT(korisnickoIme, korisnickaLozinka);
+        if (grupaBlokirana) {
+            return getOK10();
+        } else {
+            return getERR23();
+        }
     }
 
-    public String IoTMasterLoad() {
-        //ucitajSveUredjajeGrupe
-        return null;
+    public String IoTMasterLoad(String korisnickoIme, String korisnickaLozinka) {
+        IoT_Master.ucitajSveUredjajeGrupe(korisnickoIme, korisnickaLozinka);
+        return getOK10();
     }
 
-    public String IoTMasterClear() {
-        
-        //obrisiSveUredjajeGrupe
-        return null;
+    public String IoTMasterClear(String korisnickoIme, String korisnickaLozinka) {
+        IoT_Master.obrisiSveUredjajeGrupe(korisnickoIme, korisnickaLozinka);
+        return getOK10();
     }
 
-    public String IoTMasterStatus() {
-        //dajStatusGrupeIoT
-        return null;
+    public String IoTMasterStatus(String korisnickoIme, String korisnickaLozinka, int idUredaja) {
+        StatusUredjaja status = IoT_Master.dajStatusUredjajaGrupe(korisnickoIme, korisnickaLozinka, idUredaja);
+        if (status.equals("AKTIVAN")) {
+            return getOK24();
+        } else{
+            return getOK25();
+        }
     }
 
-    public String IoTMasterList() {
-        
-        //dajSveUredjajeGrupe
-        return null;
+    public String IoTMasterList(String korisnickoIme, String korisnickaLozinka) {
+        java.util.List<org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj> uredaji = IoT_Master.dajSveUredjajeGrupe(korisnickoIme, korisnickaLozinka);
+        return getOK10(uredaji);
     }
 
     public static String getERR10() {
@@ -230,11 +248,13 @@ public class Obrada {
         return OK10;
     }
 
-    public static String getOK10(List<Uredjaj> IoTUredjaji) {
+    public static String getOK10(java.util.List<org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj> IoTUredjaji) {
         String poruka = "";
-        for (Uredjaj IoT : IoTUredjaji) {
-            poruka = OK10 + " IoT " + IoT.getId() + " " + IoT.getNaziv();
+        String porukaDodatak = OK10;
+        for (org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj IoT : IoTUredjaji) {
+            poruka = " {IoT " + IoT.getId() + " " + IoT.getNaziv() + "}";
         }
+        poruka = porukaDodatak + poruka;
         return poruka;
     }
 
@@ -297,7 +317,5 @@ public class Obrada {
     public static void setOK35(String OK35) {
         Obrada.OK35 = OK35;
     }
-
-
 
 }

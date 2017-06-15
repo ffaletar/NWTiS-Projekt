@@ -18,8 +18,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.foi.nwtis.ffaletar.baza.Baza;
+import org.foi.nwtis.ffaletar.helpers.Helper;
 import org.foi.nwtis.ffaletar.helpers.KonfiguracijaHelper;
 import org.foi.nwtis.ffaletar.konfiguracije.Konfiguracija;
+import org.foi.nwtis.ffaletar.podaci.Korisnik;
 import org.foi.nwtis.ffaletar.podaci.Lokacija;
 import org.foi.nwtis.ffaletar.podaci.Uredjaj;
 
@@ -50,6 +52,100 @@ public class UredajiBaza {
         } catch (SQLException ex) {
             baza.zatvoriKonekciju();
             return null;
+        }
+    }
+    
+    public Uredjaj dohvatiJedanUredjaj(int id) {
+
+        Baza baza = new Baza();
+        Connection connection = baza.dohvatiKonekciju();
+        String upit = "select * from uredaji WHERE id = " + id;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(upit);
+
+            Uredjaj uredjaj = null;
+
+            if (resultSet.next()) {
+                uredjaj = new Uredjaj(resultSet.getInt(1), resultSet.getString(2), new Lokacija(resultSet.getString(3), resultSet.getString(4)), resultSet.getInt(5), resultSet.getString(6), resultSet.getString(7));
+            }
+
+            baza.zatvoriKonekciju();
+            return uredjaj;
+        } catch (SQLException ex) {
+            baza.zatvoriKonekciju();
+            return null;
+        }
+    }
+    
+    public boolean dodajUredaj(String naziv, String latitude, String longitude) {
+        String vrijeme = Helper.dohvatiTrenutniTimeStamp(false, false);
+        
+        String query = "INSERT INTO uredaji(naziv, latitude, longitude, status, vrijeme_promjene, vrijeme_kreiranja) VALUES ('" + naziv + "'," + latitude + "," + longitude + "," + 0 + ", '"+vrijeme+"','" + vrijeme + "')";
+        Statement s = null;
+        int rs = 0;
+        Baza baza = new Baza();
+        
+        try (Connection c = baza.dohvatiKonekciju();) {
+            s = (Statement) c.createStatement();
+            rs = s.executeUpdate(query);
+
+            if(rs == 1){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            try {
+                if (s != null) {
+                    s.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+    
+    public boolean azurirajKorisnika(int id, String naziv, String latitude, String longitude){
+
+        String vrijeme = Helper.dohvatiTrenutniTimeStamp(false, false);
+        
+        String query = "UPDATE uredaji SET naziv='" + naziv + "',latitude=" + latitude + ",longitude=" + longitude + ",status=0,vrijeme_promjene='" + vrijeme+ "' where id=" + id;
+        Statement s = null;
+        ResultSet rs = null;
+        Baza baza = new Baza();
+        int uredajAzuriran = 0;
+        
+
+        try (Connection c = baza.dohvatiKonekciju();) {
+            s = (Statement) c.createStatement();
+            uredajAzuriran = s.executeUpdate(query);
+            
+            if(uredajAzuriran == 1){
+                return true;
+            }else{
+                return false;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            try {
+                if (s != null) {
+                    s.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

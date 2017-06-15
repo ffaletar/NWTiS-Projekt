@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        
+        <h1>Registracija</h1><br/>
+        <h:form id="registracija">
+            <h:outputLabel value="#{pocetna.poruka}" id="poruka" />
+            <h:outputLabel value="Ime" for="ime" />
+            <h:inputText  value="#{pocetna.ime}" id="ime" /><br/>
+            <h:outputLabel value="Prezime" for="prezime" />
+            <h:inputText  value="#{pocetna.prezime}" id="prezime" /><br/>
+            <h:outputLabel value="Korisničko ime" for="korisnickoIme" />
+            <h:inputText  value="#{pocetna.korisnickoIme}" id="korisnickoIme" /><br/>
+            <h:outputLabel value="Lozinka" for="lozinka" />
+            <h:inputText  value="#{pocetna.lozinka}" id="lozinka" /><br/>
+            <h:outputLabel value="Ponovljena lozinka" for="ponovljenaLozinka" />
+            <h:inputText  value="#{pocetna.potvrdaLozinke}" id="ponovljenaLozinka" /><br/>
+            <h:outputLabel value="Mail adresa" for="mail" />
+            <h:inputText  value="#{pocetna.email}" id="mail" /><br/>
+
+            <h:commandButton value="Registriraj se" action="#{pocetna.registrirajKorisnika()}" >
+                <f:ajax execute="ime prezime korisnickoIme lozinka ponovljenaLozinka mail poruka" render="mail registracija poruka"/>
+            </h:commandButton><br/>
+        </h:form>
+        
+        <h:form id="prijava">
+            <h:outputLabel value="Korisničko ime" for="korisnickoIme" />
+            <h:inputText  value="#{pocetna.korisnickoIme}" id="korisnickoIme" /><br/>
+            <h:outputLabel value="Lozinka" for="lozinka" />
+            <h:inputText  value="#{pocetna.lozinka}" id="lozinka" /><br/>
+
+            <h:commandButton value="Prijavi se" action="#{pocetna.prijaviSe()}" >
+                <f:ajax execute="korisnickoIme lozinka" render="prijava"/>
+            </h:commandButton><br/>
+        </h:form>
+    </body>
+</html>

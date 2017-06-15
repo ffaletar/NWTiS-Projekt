@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import org.foi.nwtis.ffaletar.baza.KorisnikBaza;
 import org.foi.nwtis.ffaletar.baza.MeteoBaza;
 import org.foi.nwtis.ffaletar.dretve.PreuzmiMeteoPodatke;
 import org.foi.nwtis.ffaletar.dretve.Server;
@@ -59,6 +60,8 @@ public class SlusacAplikacije implements ServletContextListener {
             Logger.getLogger(SlusacAplikacije.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+
+        
         PreuzmiMeteoPodatke preuzmiMeteoPodatke = new PreuzmiMeteoPodatke();
         preuzmiMeteoPodatke.start();
         Server server = new Server();

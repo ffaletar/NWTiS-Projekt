@@ -103,7 +103,7 @@ public class ObradaZahtjeva extends Thread {
                 if (korisnikPostoji) {
                     Obrada obrada = new Obrada();
                     if (naredba.contains("START")) {
-                        poruka = obrada.IoTMasterStart("ffaletar", "RdHLr");
+                        poruka = obrada.IoTMasterStart(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("STOP")) {
                         System.out.println("Usao sam u regex start");
                         poruka = obrada.serverStart();
