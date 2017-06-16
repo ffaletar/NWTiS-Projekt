@@ -56,7 +56,6 @@ public class UredajiRESTResourceContainer {
         UredajiBaza uredajiBaza = new UredajiBaza();
         List<Uredjaj> uredaji = uredajiBaza.dohvatiSveUredjaje();
         
-        JsonObjectBuilder mainObject = Json.createObjectBuilder();
         JsonArrayBuilder jab = Json.createArrayBuilder();
 
         for (Uredjaj uredjaj : uredaji) {
@@ -67,8 +66,7 @@ public class UredajiRESTResourceContainer {
             job.add("longitude", uredjaj.getGeoloc().getLongitude());
             jab.add(job);
         }
-        mainObject.add("Uredaji", jab);
-        return mainObject.build().toString();
+        return jab.build().toString();
     }
     
     

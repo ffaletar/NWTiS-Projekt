@@ -4,4 +4,5 @@
    dataSourceName="jdbc/nwtis_ffaletar_bp_1"
    userTable="users" userNameCol="user_name" userCredCol="user_pass"
    userRoleTable="user_roles" roleNameCol="role_name"/>
+
 </Context>

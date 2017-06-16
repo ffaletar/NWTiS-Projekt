@@ -29,99 +29,133 @@ import org.foi.nwtis.ffaletar.rest.klijenti.KorisniciREST;
 @SessionScoped
 public class Pocetna implements Serializable {
 
-    private String korisnickoIme;
-    private String ime;
-    private String prezime;
-    private String lozinka;
-    private String potvrdaLozinke;
-    private String email;
-    private String poruka;
+    private String korisnickoImeRegistracija;
+    private String imeRegistracija;
+    private String prezimeRegistracija;
+    private String lozinkaRegistracija;
+    private String potvrdaLozinkeRegistracija;
+    private String emailRegistracija;
+    private String porukaRegistracija;
+
+    private String korisnickoImePrijava;
+    private String lozinkaPrijava;
+    private String porukaPrijava;
+
+    private HttpSession session;
+    private FacesContext context;
 
     public Pocetna() {
+
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
     }
 
-    public String getKorisnickoIme() {
-        return korisnickoIme;
+    public String getKorisnickoImeRegistracija() {
+        return korisnickoImeRegistracija;
     }
 
-    public void setKorisnickoIme(String korisnickoIme) {
-        this.korisnickoIme = korisnickoIme;
+    public void setKorisnickoImeRegistracija(String korisnickoImeRegistracija) {
+        this.korisnickoImeRegistracija = korisnickoImeRegistracija;
     }
 
-    public String getPoruka() {
-        return poruka;
+    public String getImeRegistracija() {
+        return imeRegistracija;
     }
 
-    public void setPoruka(String poruka) {
-        this.poruka = poruka;
+    public void setImeRegistracija(String imeRegistracija) {
+        this.imeRegistracija = imeRegistracija;
     }
 
-    public String getIme() {
-        return ime;
+    public String getPrezimeRegistracija() {
+        return prezimeRegistracija;
     }
 
-    public void setIme(String ime) {
-        this.ime = ime;
+    public void setPrezimeRegistracija(String prezimeRegistracija) {
+        this.prezimeRegistracija = prezimeRegistracija;
     }
 
-    public String getPrezime() {
-        return prezime;
+    public String getLozinkaRegistracija() {
+        return lozinkaRegistracija;
     }
 
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
+    public void setLozinkaRegistracija(String lozinkaRegistracija) {
+        this.lozinkaRegistracija = lozinkaRegistracija;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getPotvrdaLozinkeRegistracija() {
+        return potvrdaLozinkeRegistracija;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
+    public void setPotvrdaLozinkeRegistracija(String potvrdaLozinkeRegistracija) {
+        this.potvrdaLozinkeRegistracija = potvrdaLozinkeRegistracija;
     }
 
-    public String getPotvrdaLozinke() {
-        return potvrdaLozinke;
+    public String getEmailRegistracija() {
+        return emailRegistracija;
     }
 
-    public void setPotvrdaLozinke(String potvrdaLozinke) {
-        this.potvrdaLozinke = potvrdaLozinke;
+    public void setEmailRegistracija(String emailRegistracija) {
+        this.emailRegistracija = emailRegistracija;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPorukaRegistracija() {
+        return porukaRegistracija;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPorukaRegistracija(String porukaRegistracija) {
+        this.porukaRegistracija = porukaRegistracija;
+    }
+
+    public String getKorisnickoImePrijava() {
+        return korisnickoImePrijava;
+    }
+
+    public void setKorisnickoImePrijava(String korisnickoImePrijava) {
+        this.korisnickoImePrijava = korisnickoImePrijava;
+    }
+
+    public String getLozinkaPrijava() {
+        return lozinkaPrijava;
+    }
+
+    public void setLozinkaPrijava(String lozinkaPrijava) {
+        this.lozinkaPrijava = lozinkaPrijava;
+    }
+
+    public String getPorukaPrijava() {
+        return porukaPrijava;
+    }
+
+    public void setPorukaPrijava(String porukaPrijava) {
+        this.porukaPrijava = porukaPrijava;
     }
 
     public void registrirajKorisnika() {
 
         if (provjeriIspunjenostRegistracije()) {
             JsonObjectBuilder job = Json.createObjectBuilder();
-            job.add("korisnickoIme", getKorisnickoIme());
-            job.add("ime", getIme());
-            job.add("prezime", getPrezime());
-            job.add("lozinka", getLozinka());
-            job.add("mail", getEmail());
+            job.add("korisnickoIme", getKorisnickoImeRegistracija());
+            job.add("ime", getImeRegistracija());
+            job.add("prezime", getPrezimeRegistracija());
+            job.add("lozinka", getLozinkaRegistracija());
+            job.add("mail", getEmailRegistracija());
 
             KorisniciREST korisniciREST = new KorisniciREST();
             String korisnikDodan = korisniciREST.dodajKorisnika(job.build().toString());
 
             if (korisnikDodan.equals("1")) {
-                setKorisnickoIme("");
-                setLozinka("");
-                setIme("");
-                setPrezime("");
-                setPoruka("");
-                setPotvrdaLozinke("");
-                setEmail("");
+                setKorisnickoImeRegistracija("");
+                setLozinkaRegistracija("");
+                setImeRegistracija("");
+                setPrezimeRegistracija("");
+                setPorukaRegistracija("");
+                setPotvrdaLozinkeRegistracija("");
+                setEmailRegistracija("");
             } else {
 
             }
         } else {
-            poruka = "Greška prilikom registracije";
+            porukaRegistracija = "Greška prilikom registracije";
         }
 
     }
@@ -129,7 +163,7 @@ public class Pocetna implements Serializable {
     public void prijaviSe() {
 
         KorisniciREST korisniciREST = new KorisniciREST();
-        String content = korisniciREST.dajKorisnika(getKorisnickoIme());
+        String content = korisniciREST.dajKorisnika(getKorisnickoImePrijava());
 
         if (!content.equals("")) {
             JsonReader reader = Json.createReader(new StringReader(content));
@@ -142,64 +176,29 @@ public class Pocetna implements Serializable {
             String mail = jo.getString("mail");
             int tipKorisnika = jo.getInt("tipKorisnika");
 
-            if (korisnickoIme.equals(getKorisnickoIme()) && lozinka.equals(getLozinka())) {
-                boolean sesijaPokrenuta = pokreniSesiju(korisnickoIme, lozinka, id);
+            if (korisnickoIme.equals(getKorisnickoImePrijava()) && lozinka.equals(getLozinkaPrijava())) {
 
-                if (sesijaPokrenuta) {
-                    try {
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("/ffaletar_aplikacija_2_2/index.xhtml");
-                    } catch (IOException ex) {
-                        Logger.getLogger(Pocetna.class.getName()).log(Level.SEVERE, null, ex);
-                        poruka = "Prijavljeni ste! Greška prilikom redirekcije";
-                    }
-                } else {
-                    poruka = "Greška prilikom pokretanja sesije";
-                }
+                session = BeanHelper.pokreniSesiju(session, korisnickoIme, lozinka, id, ime, prezime, mail);
+
+                resetObrazaca();
+                
             } else {
-                poruka = "Greška prilikom prijave";
+                porukaPrijava = "Kriva lozinka";
             }
-        }else{
-            poruka = "Ne postoji korisnik s unesenim korisničkim imenom";
-        }
-
-    }
-
-    public boolean pokreniSesiju(String korisnickoIme, String lozinka, int id) {
-        HttpSession session = Sesija.getSession();
-        session.setAttribute("korisnickoIme", this.korisnickoIme);
-        session.setAttribute("lozinka", this.lozinka);
-        session.setAttribute("idKorisnika", id);
-
-        if (session != null) {
-            return true;
         } else {
-            return false;
+            porukaPrijava = "Ne postoji korisnik s unesenim korisničkim imenom";
         }
+
     }
 
     public boolean provjeriIspunjenostRegistracije() {
-        boolean korisnickoImePopunjeno;
-        boolean imePopunjeno;
-        boolean prezimePopunjeno;
-        boolean lozinkaPopunjena;
-        boolean provjeraLozinkePopunjena;
-        boolean mailPopunjen;
-        boolean lozinkaIPotvrdaLozinkeJednake;
-        boolean registracijaPopunjena;
-
-        if (!getKorisnickoIme().equals("") && getKorisnickoIme() != null) {
-            korisnickoImePopunjeno = true;
-            if (!getIme().equals("") && getIme() != null) {
-                imePopunjeno = true;
-                if (!getPrezime().equals("") && getPrezime() != null) {
-                    prezimePopunjeno = true;
-                    if (!getLozinka().equals("") && getLozinka() != null) {
-                        lozinkaPopunjena = true;
-                        if (!getPotvrdaLozinke().equals("") && getPotvrdaLozinke() != null) {
-                            provjeraLozinkePopunjena = true;
-                            if (!getKorisnickoIme().equals("") && getKorisnickoIme() != null) {
-                                mailPopunjen = true;
-                                if (getLozinka().equals(getPotvrdaLozinke())) {
+        if (!getKorisnickoImeRegistracija().equals("") && getKorisnickoImeRegistracija() != null) {
+            if (!getImeRegistracija().equals("") && getImeRegistracija() != null) {
+                if (!getPrezimeRegistracija().equals("") && getPrezimeRegistracija() != null) {
+                    if (!getLozinkaRegistracija().equals("") && getLozinkaRegistracija() != null) {
+                        if (!getPotvrdaLozinkeRegistracija().equals("") && getPotvrdaLozinkeRegistracija() != null) {
+                            if (!getEmailRegistracija().equals("") && getEmailRegistracija() != null) {
+                                if (getLozinkaRegistracija().equals(getPotvrdaLozinkeRegistracija())) {
                                     return true;
                                 }
                             }
@@ -210,4 +209,30 @@ public class Pocetna implements Serializable {
         }
         return false;
     }
+
+    public void preusmjeriAkoJeAktivnaSesija() {
+        if (session.getAttribute("korisnickoIme") != null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/ffaletar_aplikacija_2_2/index.jsf");
+            } catch (IOException ex) {
+                Logger.getLogger(Pocetna.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    
+    public void resetObrazaca() {
+        setKorisnickoImePrijava("");
+        setLozinkaPrijava("");
+        setPorukaPrijava("");
+
+        setKorisnickoImeRegistracija("");
+        setEmailRegistracija("");
+        setLozinkaRegistracija("");
+        setImeRegistracija("");
+        setPrezimeRegistracija("");
+        setPotvrdaLozinkeRegistracija("");
+        setPorukaRegistracija("");
+    }
+
 }

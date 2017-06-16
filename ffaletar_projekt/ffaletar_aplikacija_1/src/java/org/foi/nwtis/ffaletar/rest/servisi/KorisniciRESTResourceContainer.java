@@ -59,7 +59,6 @@ public class KorisniciRESTResourceContainer {
         KorisnikBaza korisnikBaza = new KorisnikBaza();
         List<Korisnik> korisnici = korisnikBaza.dajSveKorisnike();
 
-        JsonObjectBuilder mainObject = Json.createObjectBuilder();
         JsonArrayBuilder jab = Json.createArrayBuilder();
 
         for (Korisnik korisnik : korisnici) {
@@ -72,8 +71,7 @@ public class KorisniciRESTResourceContainer {
             job.add("tipKorisnika", korisnik.getTipKorisnika());
             jab.add(job);
         }
-        mainObject.add("Korisnici", jab);
-        return mainObject.build().toString();
+        return jab.build().toString();
     }
 
     /**

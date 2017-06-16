@@ -2,13 +2,85 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h1>Početna stranica</h1><br/>
         
+        <ui:composition template="./predlozak.xhtml">
+
+            <ui:define name="naslov">
+                NWTiS - Projekt
+            </ui:define>
+
+            <ui:define name="top">
+                Home
+                <h:form style="float: right;">
+                    <h:commandButton value="Odjavi se" action="${index.logout()}" />
+                </h:form>
+                    
+                
+            </ui:define>
+
+            <ui:define name="content">
+                <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
+                <h:outputText id="greska" value="#{pregledDnevnika.greska}"/>
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:form id="azuriranjeForma">
+                            
+                            <br/><br/><br/>
+                            <h:outputLabel value="#{index.poruka}" id="porukaAzuriranje" />
+                            <h:outputLabel value="Ime" for="imeAzuriranje" />
+                            <h:inputText  value="#{index.ime}" id="imeAzuriranje" /><br/>
+                            <h:outputLabel value="Prezime" for="prezimeAzuriranje" />
+                            <h:inputText  value="#{index.prezime}" id="prezimeAzuriranje" /><br/>
+                            <h:outputLabel value="Korisničko ime" for="korisnickoImeAzuriranje" />
+                            <h:inputText  value="#{index.korisnickoIme}" id="korisnickoImeAzuriranje" /><br/>
+                            <h:outputLabel value="Lozinka" for="lozinkaAzuriranje" />
+                            <h:inputText  value="#{index.lozinka}" id="lozinkaAzuriranje" /><br/>
+                            <h:outputLabel value="Mail adresa" for="mailAzuriranje" />
+                            <h:inputText  value="#{index.mail}" id="mailAzuriranje" /><br/>
+
+                            <h:commandButton value="Ažuriraj podatke" action="#{index.azurirajPodatke()}" >
+                                <f:ajax execute="imeAzuriranje prezimeAzuriranje korisnickoImeAzuriranje lozinkaAzuriranje mailAzuriranje porukaAzuriranje"/>
+                            </h:commandButton><br/>
+                        </h:form>
+                    </h:panelGrid>
+                    <h:panelGroup id="panelKorisnici">
+                        <h:dataTable value="#{index.korisnici}" var="d">
+                            <h:column>
+                                <f:facet name="header">ID</f:facet>
+                                <h:outputText value="#{d.ID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Korisničko ime</f:facet>
+                                <h:outputText value="#{d.korisnickoIme}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Ime</f:facet>
+                                <h:outputText value="#{d.ime}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Prezime</f:facet>
+                                <h:outputText value="#{d.prezime}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Mail</f:facet>
+                                <h:outputText value="#{d.mail}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Tip korisnika</f:facet>
+                                <h:outputText value="#{d.tipKorisnika}" />
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

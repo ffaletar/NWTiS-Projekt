@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(org.foi.nwtis.ffaletar.rest.servisi.KorisniciRESTResource.class);
         resources.add(org.foi.nwtis.ffaletar.rest.servisi.KorisniciRESTResourceContainer.class);
+        resources.add(org.foi.nwtis.ffaletar.rest.servisi.UredajiRESTResource.class);
         resources.add(org.foi.nwtis.ffaletar.rest.servisi.UredajiRESTResourceContainer.class);
     }
 
