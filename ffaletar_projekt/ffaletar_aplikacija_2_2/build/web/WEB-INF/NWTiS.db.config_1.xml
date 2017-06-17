@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>NWTIS konfiguracija - MySQL</comment>
+<entry key="server.database">jdbc:mysql://127.0.0.1/</entry>
+<entry key="admin.username">nwtis_admin</entry>
+<entry key="admin.password">nwtis_foi</entry>
+<entry key="admin.database">mysql</entry>
+<entry key="user.username">nwtis_g1</entry>
+<entry key="user.password">g1_nwtis</entry>
+<entry key="user.database">nwtis_g1</entry>
+
+<entry key="dbDriver">com.mysql.jdbc.Driver</entry>
+<entry key="dbKorisnickoIme">korisnik</entry>
+<entry key="dbLozinka">korisnik</entry>
+<entry key="dbServer">jdbc:mysql://127.0.0.1/nwtis_ffaletar_bp_1</entry>
+<entry key="intervalDretveZaMeteoPodatke">10</entry>
+<entry key="apiKeyOWM">927bb9d6c2fe92d55e85a31ec31b1be9</entry>
+<entry key="port">9000</entry>
+<entry key="host">127.0.0.1</entry>
+<entry key="komanda">USER ffaletar; PASSWD ffaletar; STATUS;</entry>
+<entry key="mailAdresaPosiljatelja">obrada@nwtis.nastava.foi.hr</entry>
+<entry key="mailAdresaPrimatelja">servis@nwtis.nastava.foi.hr</entry>
+<entry key="mailPredmet">Izvještaj</entry>
+<entry key="IoTMasterKorisnik">ffaletar</entry>
+<entry key="IoTMasterLozinka">RdHLr</entry>
+</properties>

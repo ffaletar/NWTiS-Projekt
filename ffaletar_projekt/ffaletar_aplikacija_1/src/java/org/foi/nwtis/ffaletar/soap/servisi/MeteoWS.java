@@ -11,8 +11,10 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import org.foi.nwtis.ffaletar.baza.MeteoBaza;
+import org.foi.nwtis.ffaletar.baza.UredajiBaza;
 import org.foi.nwtis.ffaletar.podaci.Lokacija;
 import org.foi.nwtis.ffaletar.podaci.MeteoPodaci;
+import org.foi.nwtis.ffaletar.podaci.Uredjaj;
 import org.foi.nwtis.ffaletar.rest.klijenti.GMKlijent;
 import org.foi.nwtis.ffaletar.rest.klijenti.OWMKlijent;
 
@@ -49,7 +51,7 @@ public class MeteoWS {
     @WebMethod(operationName = "meteoPodaciUVremenskomRazdoblju")
     public List<MeteoPodaci> meteoPodaciUVremenskomRazdoblju(@WebParam(name = "IoTUredjaj") int IoTUredjaj, @WebParam(name = "pocetak") long pocetak, @WebParam(name = "kraj") long kraj) {
         MeteoBaza meteoBaza = new MeteoBaza();
-        List<MeteoPodaci> meteoPodaci = meteoBaza.dohvatiZadnjeMeteoPodatakaZaUredjajUVremenskomRazdoblju(IoTUredjaj, 1497379800000L, 1497379962000L);
+        List<MeteoPodaci> meteoPodaci = meteoBaza.dohvatiZadnjeMeteoPodatakaZaUredjajUVremenskomRazdoblju(IoTUredjaj,pocetak, kraj);
         return meteoPodaci;
     }
 
@@ -62,10 +64,13 @@ public class MeteoWS {
     }
     
     @WebMethod(operationName = "adresaUredajaPremaGeolokaciji")
-    public String adresaUredajaPremaGeolokaciji(@WebParam(name = "Latitude") String latitude, @WebParam(name = "Longitude") String longitude) {
+    public String adresaUredajaPremaGeolokaciji(@WebParam(name = "IoTUredjaj") int IoTUredjaj) {
         GMKlijent gmk = new GMKlijent();
         
-        Lokacija lokacija = new Lokacija(latitude, longitude);
+        UredajiBaza ub = new UredajiBaza();
+        Uredjaj uredjaj = ub.dohvatiJedanUredjaj(IoTUredjaj);
+        
+        Lokacija lokacija = new Lokacija(uredjaj.getGeoloc().getLatitude(), uredjaj.getGeoloc().getLongitude());
         
         String adresa = gmk.getAddress(lokacija);
         return adresa;

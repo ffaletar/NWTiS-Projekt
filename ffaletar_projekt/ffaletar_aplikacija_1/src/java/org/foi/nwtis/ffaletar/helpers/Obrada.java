@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 import org.foi.nwtis.ffaletar.dretve.PreuzmiMeteoPodatke;
 import org.foi.nwtis.ffaletar.podaci.Uredjaj;
 import org.foi.nwtis.ffaletar.soap.klijenti.IoT_Master;
+import org.foi.nwtis.ffaletar.soap.klijenti.StatusKorisnika;
 import org.foi.nwtis.ffaletar.soap.klijenti.StatusUredjaja;
 
 /**
@@ -60,9 +61,9 @@ public class Obrada {
     public String serverStart() {
         if (PreuzmiMeteoPodatke.isPauzirana()) {
             System.out.println("Server je uspješno pokrenut");
+            PreuzmiMeteoPodatke.setPauzirana(false);
             return getOK10();
         } else {
-            PreuzmiMeteoPodatke.setPauzirana(false);
             System.out.println("Server nije uspješno pokrenut - ERR11");
             return getERR11();
         }
@@ -142,9 +143,9 @@ public class Obrada {
         return getOK10();
     }
 
-    public String IoTMasterStatus(String korisnickoIme, String korisnickaLozinka, int idUredaja) {
-        StatusUredjaja status = IoT_Master.dajStatusUredjajaGrupe(korisnickoIme, korisnickaLozinka, idUredaja);
-        if (status.equals("AKTIVAN")) {
+    public String IoTMasterStatus(String korisnickoIme, String korisnickaLozinka) {
+        StatusKorisnika status = IoT_Master.dajStatusGrupeIoT(korisnickoIme, korisnickaLozinka);
+        if (status.AKTIVAN != null) {
             return getOK24();
         } else{
             return getOK25();

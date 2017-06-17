@@ -37,7 +37,7 @@ import org.foi.nwtis.ffaletar.konfiguracije.Konfiguracija;
  */
 public class ObradaZahtjeva extends Thread {
 
-    private Socket ss;
+    private static Socket ss;
 
     public ObradaZahtjeva(Socket ss) {
         this.ss = ss;
@@ -70,9 +70,15 @@ public class ObradaZahtjeva extends Thread {
             }
 
             System.out.println("Primljena komanda: " + sb);
+            
+            
+            
+            
             String naredba = sb.toString();
 
             Regex regex = new Regex(sb.toString());
+            
+            
             boolean korisnikPostoji = KorisnikBaza.provjeriKorisnika(regex.getKorisnickoIme(), regex.getLozinka());
             if (regex.isServer()) {
                 System.out.println("Usao u server regex");
@@ -91,11 +97,11 @@ public class ObradaZahtjeva extends Thread {
                 } else {
                     poruka = Obrada.getERR10();
                 }
-                if(poruka.contains("OK")){
+                if (poruka.contains("OK")) {
                     System.out.println("Ušao u if za slanje maila");
 //                    posaljiMail(naredba + "\n" + Helper.dohvatiTrenutniTimeStamp(false, true));
-                    
-                }else{
+
+                } else {
                     System.out.println("Nisam ušao u if za slanje maila");
                 }
             } else if (regex.isIoTMaster()) {
@@ -106,29 +112,40 @@ public class ObradaZahtjeva extends Thread {
                         poruka = obrada.IoTMasterStart(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("STOP")) {
                         System.out.println("Usao sam u regex start");
-                        poruka = obrada.serverStart();
+                        poruka = obrada.IoTMasterStop(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("WORK")) {
-                        poruka = obrada.serverStop();
+                        poruka = obrada.IoTMasterWork(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("WAIT")) {
-                        poruka = obrada.serverStatus();
+                        poruka = obrada.IoTMasterWait(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("LOAD")) {
-                        poruka = obrada.serverStatus();
+                        poruka = obrada.IoTMasterLoad(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("CLEAR")) {
-                        poruka = obrada.serverStatus();
+                        poruka = obrada.IoTMasterClear(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("STATUS")) {
-                        poruka = obrada.serverStatus();
+                        poruka = obrada.IoTMasterStatus(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     } else if (naredba.contains("LIST")) {
-                        poruka = obrada.serverStatus();
+                        poruka = obrada.IoTMasterList(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka());
                     }
                 } else {
                     poruka = Obrada.getERR10();
                 }
+
             } else if (regex.isIoT()) {
                 System.out.println("Usao u IoT regex");
             } else {
                 System.out.println("Nisam uspio ući u if regex");
             }
+
+
+            os.write(poruka.getBytes());
+            os.flush();
+            ss.shutdownOutput();
+            
+            
+
             System.out.println(">>" + poruka);
+
+            
         } catch (IOException ex) {
             Logger.getLogger(ObradaZahtjeva.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -141,8 +158,7 @@ public class ObradaZahtjeva extends Thread {
     }
 
     public static void posaljiMail(String poruka) {
-        
-        
+
         System.out.println("Zapocinjem slanje maila");
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", KonfiguracijaHelper.getHost());
@@ -157,7 +173,7 @@ public class ObradaZahtjeva extends Thread {
             message.setText(poruka);
 
             Transport.send(message);
-            
+
             System.out.println("Mail poslan");
         } catch (MessagingException mex) {
             System.out.println("Greška kod slanja mail");

@@ -19,7 +19,7 @@ import org.foi.nwtis.ffaletar.helpers.KonfiguracijaHelper;
  * @author Filip
  */
 public class Server extends Thread {
-
+    private volatile static boolean zaustavljena;
     private static ServerSocket ss;
 
     @Override
@@ -35,6 +35,7 @@ public class Server extends Thread {
             System.out.println("Server radi");
             ss = new ServerSocket(KonfiguracijaHelper.getPort());
             while(true){
+                if (isZaustavljena()) break;
                 Socket socket = ss.accept();
                 ObradaZahtjeva obradaZahtjeva = new ObradaZahtjeva(socket);
                 obradaZahtjeva.start();
@@ -49,4 +50,17 @@ public class Server extends Thread {
     public synchronized void start() {
         super.start(); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public static boolean isZaustavljena() {
+        return zaustavljena;
+    }
+
+    public static void setZaustavljena(boolean zaustavljena) {
+        Server.zaustavljena = zaustavljena;
+    }
+
+    
+    
+    
+    
 }

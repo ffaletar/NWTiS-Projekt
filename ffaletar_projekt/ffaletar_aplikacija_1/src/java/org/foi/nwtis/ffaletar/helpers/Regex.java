@@ -36,8 +36,8 @@ public class Regex {
         Matcher matcherIoTMaster = patternIoTMaster.matcher(naredba);
         Matcher matcherIoT = patternIoT.matcher(naredba);
         boolean statusServer = matcherServer.matches();
-        boolean statusIoTMaster = matcherServer.matches();
-        boolean statusIoT = matcherServer.matches();
+        boolean statusIoTMaster = matcherIoTMaster.matches();
+        boolean statusIoT = matcherIoT.matches();
         
         if(statusServer){
             korisnickoIme = matcherServer.group(1);
@@ -58,6 +58,8 @@ public class Regex {
             IoT = true;
             IoTMaster = false;
         }
+        
+        System.out.println("Regex >> server " + server + " IoTMaster " + IoTMaster + " IoT " + IoT);
     }
 
     public boolean isServer() {

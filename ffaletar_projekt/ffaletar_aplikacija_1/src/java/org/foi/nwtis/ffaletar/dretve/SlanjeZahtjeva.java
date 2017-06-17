@@ -40,7 +40,7 @@ public class SlanjeZahtjeva extends Thread {
 
             socket = new Socket(KonfiguracijaHelper.getHost(), KonfiguracijaHelper.getPort());
 
-            String myString = "USER ffaletar; PASSWD ffaletar; STATUS;";
+            String myString = "USER ffaletar; PASSWD ffaletar; START;";
             OutputStream out = socket.getOutputStream();
             InputStream in = socket.getInputStream();
 

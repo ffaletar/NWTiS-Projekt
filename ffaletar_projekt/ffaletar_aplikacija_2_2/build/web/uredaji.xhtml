@@ -30,40 +30,149 @@ and open the template in the editor.
             </ui:define>
 
             <ui:define name="content">
-
+                <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
                 <h:form>
-                    <h:panelGrid columns="1">
-                        <h:outputText value="Raspoloživi IoT uređaji"/><br/>
-                        <h:panelGrid columns="2">
+                    <h:panelGrid columns="4">
+
+                        <h:panelGrid columns="1" style="width:80px; margin-left: 50px;">
+                            <h:outputText value="Raspoloživi IoT uređaji"/><br/>
                             <h:selectManyListbox size="7" value="#{uredaji.popisRaspoloziviIoT}" id="raspoloziviIoT" >
                                 <f:selectItems value="#{uredaji.raspoloziviIoT}"/>
                             </h:selectManyListbox>
 
 
                         </h:panelGrid>
-                        <h:panelGrid columns="1">
+                        <h:panelGrid columns="1" style="width: 330px; margin-left: 60px;">
                             <h:commandButton value="Prikaži" action="#{uredaji.prikaziOdabraniIoT()}">
                                 <f:ajax execute="raspoloziviIoT" render="panelAzuriranje"/>
                             </h:commandButton>
-                        </h:panelGrid>
-
-                    </h:panelGrid>
-                    <h:panelGroup id="panelAzuriranje">
-                        <h:panelGrid columns="3" rendered="#{uredaji.azuriranje eq true}">
-                            <h:outputLabel value="Naziv: " for="azuriranjeNaziv"/>
-                            <h:inputText value="#{uredaji.azuriranjeNaziv}" id="azuriranjeNaziv"/>
-                            <h:outputText value="" />
-                            <h:outputLabel value="Latitude: " for="azuriranjeLatitude" />
-                            <h:inputText value="#{uredaji.azuriranjeLatitude}" id="azuriranjeLatitude" />
-                            <h:outputText value="" />
-                            <h:outputLabel value="Longitude " for="azuriranjeLongitude" />
-                            <h:inputText value="#{uredaji.azuriranjeLongitude}" id="azuriranjeLongitude" />
-                            <h:outputText value="" />
-                            <h:commandButton value="Ažuriraj" action="#{uredaji.azurirajIoT()}">
-                                <f:ajax execute="azuriranjeNaziv azuriranjeLatitude azuriranjeLongitude" render="raspoloziviIoT panelAzuriranje poruka"/>
+                            <h:commandButton value="Prikaži meteo podatke" action="#{uredaji.dohvatiVazeceMeteoPodatke()}">
+                                <f:ajax execute="raspoloziviIoT" render="vazeciMeteoPodaciPanel"/>
+                            </h:commandButton>
+                            <h:outputLabel value="Početak " for="vrijemePocetak" />
+                            <h:inputText value="#{uredaji.vrijemePocetak}" id="vrijemePocetak" />
+                            <h:outputLabel value="Kraj " for="vrijemeKraj" />
+                            <h:inputText value="#{uredaji.vrijemeKraj}" id="vrijemeKraj" />
+                            <h:commandButton value="Meteo podaci u vremenskom intervalu" action="#{uredaji.dohvatiSveMeteoPodatkeUVremenskomIntervalu()}">
+                                <f:ajax execute="raspoloziviIoT vrijemePocetak vrijemeKraj" render="meteoPodaciUVremenskomIntervaluPanel"/>
+                            </h:commandButton>
+                            <h:outputLabel value="Kraj " for="brojMeteo" />
+                            <h:inputText value="#{uredaji.brojMeteo}" id="brojMeteo" />
+                            <h:commandButton value="Zadnji meteo podaci" action="#{uredaji.dohvatiZadnjihNMeteoPodataka()}">
+                                <f:ajax execute="raspoloziviIoT brojMeteo" render="zadnjihNMeteoPodatakaPanel"/>
+                            </h:commandButton>
+                            <h:commandButton value="Prikaži adresu uređaja" action="#{uredaji.dohvatiAdresuUredaja()}">
+                                <f:ajax execute="raspoloziviIoT" render="adresaUredajaPanel"/>
                             </h:commandButton>
                         </h:panelGrid>
-                    </h:panelGroup>
+                        <h:panelGroup id="panelAzuriranje" style="margin-left: 300px;">
+                            <h:panelGrid columns="1" rendered="#{uredaji.azuriranje eq true}">
+                                <h1>Ažuriranje</h1>
+                                <h:outputLabel value="Naziv: " for="azuriranjeNaziv"/>
+                                <h:inputText value="#{uredaji.azuriranjeNaziv}" id="azuriranjeNaziv"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Latitude: " for="azuriranjeLatitude" />
+                                <h:inputText value="#{uredaji.azuriranjeLatitude}" id="azuriranjeLatitude" />
+                                <h:outputText value="" />
+                                <h:outputLabel value="Longitude " for="azuriranjeLongitude" />
+                                <h:inputText value="#{uredaji.azuriranjeLongitude}" id="azuriranjeLongitude" />
+                                <h:outputText value="" />
+                                <h:commandButton value="Ažuriraj" action="#{uredaji.azurirajIoT()}">
+                                    <f:ajax execute="azuriranjeNaziv azuriranjeLatitude azuriranjeLongitude" render="raspoloziviIoT panelAzuriranje poruka"/>
+                                </h:commandButton>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="vazeciMeteoPodaciPanel">
+
+                            <h:panelGrid columns="1" rendered="#{uredaji.vazeciMeteoPodaciPanel eq true}" style="width: 400px;">
+                                <h1>Važeći meteo podaci za odabrani uređaj</h1>
+                                <h:outputLabel value="Naziv uređaja" for="meteoNazivLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoNaziv}" id="meteoNazivLabel"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Temperatura" for="meteoTempLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoTemp}" id="meteoTempLabel"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Maksimalna temperatura" for="meteoMaxTempLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoMaxTemp}" id="meteoMaxTempLabel"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Minimalna temperatura" for="meteoMinTempLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoMinTemp}" id="meteoMinTempLabel"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Vlaga" for="meteoVlagaLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoVlaga}" id="meteoVlagaLabel"/>
+                                <h:outputText value="" />
+                                <h:outputLabel value="Tlak" for="meteoTlakLabel"/>
+                                <h:outputLabel value="#{uredaji.meteoTlak}" id="meteoTlakLabel"/>
+                                <h:outputText value="" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <h:panelGroup id="adresaUredajaPanel">
+                            <h:panelGrid columns="1" rendered="#{uredaji.adresaUredajaPanel eq true}">
+                                <h1>Adresa uređaja</h1>
+                                <h:outputText value="#{uredaji.adresaUredaja}" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <h:panelGroup id="meteoPodaciUVremenskomIntervaluPanel"  style="width: 500px">
+
+                            <h:panelGrid columns="1" rendered="#{uredaji.meteoPodaciUVremenskomIntervaluPanel eq true}">
+                                <h1>Meteo podaci za uređaj u zadanom vremenskom intervalu</h1>
+                                <h:dataTable value="#{uredaji.meteoPodaciUVremenskomIntervalu}" var="d">
+                                    <h:column>
+                                        <f:facet name="header">Temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureValue}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Maksimalna temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureMax}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Minimalna temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureMin}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Vlaga</f:facet>
+                                        <h:outputText value="#{d.humidityValue}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Tlak</f:facet>
+                                        <h:outputText value="#{d.pressureValue}" />
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <h:panelGroup id="zadnjihNMeteoPodatakaPanel" style="width: 500px">
+
+                            <h:panelGrid columns="1" rendered="#{uredaji.zadnjihNMeteoPodatakaPanel eq true}">
+                                <h1>Zadnjih #{uredaji.brojMeteo} meteo podataka za odabrani uređaj</h1>
+                                <h:dataTable value="#{uredaji.zadnjihNMeteoPodataka}" var="d">
+                                    <h:column>
+                                        <f:facet name="header">Temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureValue}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Maksimalna temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureMax}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Minimalna temperatura</f:facet>
+                                        <h:outputText value="#{d.temperatureMin}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Vlaga</f:facet>
+                                        <h:outputText value="#{d.humidityValue}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Tlak</f:facet>
+                                        <h:outputText value="#{d.pressureValue}" />
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
 
                 </h:form>
 

@@ -67,8 +67,8 @@ public class SlusacAplikacije implements ServletContextListener {
         Server server = new Server();
         server.start();
 
-        SlanjeZahtjeva slanjeZahtjeva = new SlanjeZahtjeva();
-        slanjeZahtjeva.start();
+//        SlanjeZahtjeva slanjeZahtjeva = new SlanjeZahtjeva();
+//        slanjeZahtjeva.start();
     }
 
     @Override

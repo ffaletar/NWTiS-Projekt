@@ -28,8 +28,8 @@ import org.foi.nwtis.ffaletar.rest.klijenti.OWMKlijent;
  */
 public class PreuzmiMeteoPodatke extends Thread {
 
-    private static boolean pauzirana;
-    private static boolean zaustavljena;
+    private static boolean pauzirana = false;
+    private static boolean zaustavljena = false;
 
     public PreuzmiMeteoPodatke() {
     }

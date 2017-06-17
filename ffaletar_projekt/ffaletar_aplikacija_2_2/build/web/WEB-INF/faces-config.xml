@@ -13,5 +13,9 @@
             <from-outcome>uredaji</from-outcome>
             <to-view-id>/uredaji.jsf</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>kontrolaServera</from-outcome>
+            <to-view-id>/kontrolaServera.jsf</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
