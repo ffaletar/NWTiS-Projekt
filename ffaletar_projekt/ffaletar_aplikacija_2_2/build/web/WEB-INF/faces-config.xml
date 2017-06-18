@@ -3,6 +3,17 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <application>
+        <resource-bundle>
+            <base-name>org.foi.nwtis.ffaletar.jezici.i18n</base-name>
+            <var>j</var>
+        </resource-bundle>
+        <locale-config>
+            <default-locale>hr</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+    </application>
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
@@ -16,6 +27,10 @@
         <navigation-case>
             <from-outcome>kontrolaServera</from-outcome>
             <to-view-id>/kontrolaServera.jsf</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>kontrolaUredaja</from-outcome>
+            <to-view-id>/kontrolaUredaja.jsf</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

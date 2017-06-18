@@ -6,7 +6,6 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
@@ -14,15 +13,45 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <form action="j_security_check" method="POST">
-            <h:outputLabel for="j_username">Korisničko ime</h:outputLabel>
-            <h:inputText id="j_username" size="20" />
+        <h:form>
+            <h:selectOneRadio value="#{lokalizacija.odabirJezika}">
+                <f:selectItems value="#{lokalizacija.izbornik}" var="jezik"
+                               itemLabel="#{jezik.labela}" itemValue="#{jezik.vrijednost}"/>
+            </h:selectOneRadio><br/>
+            <h:commandButton value="#{j.odaberiJezik}" action="#{lokalizacija.izaberiJezik()}" />
+        </h:form>
+        <f:event type="preRenderView" listener="#{pocetna.preusmjeriAkoJeAktivnaSesija()}" />
+        <h1>#{j.registracija}</h1><br/>
 
-            <h:outputLabel for="j_password">Lozinka</h:outputLabel>
-            <h:inputSecret id="j_password" size="20"/>
+        <h:form id="registracija">
+            <h:outputLabel value="#{pocetna.porukaRegistracija}" id="porukaRegistracija" />
+            <h:outputLabel value="#{j.ime}" for="imeRegistracija" />
+            <h:inputText  value="#{pocetna.imeRegistracija}" id="imeRegistracija" /><br/>
+            <h:outputLabel value="#{j.prezime}" for="prezimeRegistracija" />
+            <h:inputText  value="#{pocetna.prezimeRegistracija}" id="prezimeRegistracija" /><br/>
+            <h:outputLabel value="#{j.korisnickoIme}" for="korisnickoImeRegistracija" />
+            <h:inputText  value="#{pocetna.korisnickoImeRegistracija}" id="korisnickoImeRegistracija" /><br/>
+            <h:outputLabel value="#{j.lozinka}" for="lozinkaRegistracija" />
+            <h:inputText  value="#{pocetna.lozinkaRegistracija}" id="lozinkaRegistracija" /><br/>
+            <h:outputLabel value="#{j.ponovljenaLozinka}" for="ponovljenaLozinkaRegistracija" />
+            <h:inputText  value="#{pocetna.potvrdaLozinkeRegistracija}" id="ponovljenaLozinkaRegistracija" /><br/>
+            <h:outputLabel value="#{j.mailAdresa}" for="mailRegistracija" />
+            <h:inputText  value="#{pocetna.emailRegistracija}" id="mailRegistracija" /><br/>
 
-            <input type="submit" value="Prijavi se" />
-        </form>
-        
+            <h:commandButton value="#{j.registrirajSe}" action="#{pocetna.registrirajKorisnika()}" >
+                <f:ajax execute="imeRegistracija prezimeRegistracija korisnickoImeRegistracija lozinkaRegistracija ponovljenaLozinkaRegistracija mailRegistracija porukaRegistracija" render="mail registracija poruka"/>
+            </h:commandButton><br/>
+        </h:form>
+
+        <h:form id="prijava">
+            <h:outputLabel value="#{j.korisnickoIme}" for="korisnickoImePrijava" />
+            <h:inputText  value="#{pocetna.korisnickoImePrijava}" id="korisnickoImePrijava" /><br/>
+            <h:outputLabel value="#{j.lozinka}" for="lozinkaPrijava" />
+            <h:inputText  value="#{pocetna.lozinkaPrijava}" id="lozinkaPrijava" /><br/>
+
+            <h:commandButton value="#{j.prijaviSe}" action="#{pocetna.prijaviSe()}" >
+                <f:ajax execute="korisnickoImePrijava lozinkaPrijava" render="prijava"/>
+            </h:commandButton><br/>
+        </h:form>
     </body>
 </html>

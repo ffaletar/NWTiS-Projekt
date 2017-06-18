@@ -18,9 +18,10 @@
         </div>
         <div>
             <div id="left">
-                <h:link value="Početna" outcome="index" /><br/>
-                <h:link value="IoT Uređaji" outcome="uredaji" /><br/>
-                <h:link value="Kontrola servera" outcome="kontrolaServera" /><br/>
+                <h:link value="#{j.pocetna}" outcome="index" /><br/>
+                <h:link value="#{j.IoTUredaji}" outcome="uredaji" /><br/>
+                <h:link value="#{j.kontrolaServera}" outcome="kontrolaServera" /><br/>
+                <h:link value="#{j.kontrolaUredaja}" outcome="kontrolaUredaja" /><br/>
             </div>
             <div id="content" class="left_content">
                 <ui:insert name="content">Content</ui:insert>

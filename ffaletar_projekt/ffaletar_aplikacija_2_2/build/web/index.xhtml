@@ -4,83 +4,92 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        
-        <ui:composition template="./predlozak.xhtml">
+    <f:view locale="#{lokalizacija.odabirJezika}" > 
+        <h:head>
+            <title>Facelet Title</title>
+        </h:head>
+        <h:body>
 
-            <ui:define name="naslov">
-                NWTiS - Projekt
-            </ui:define>
+            <ui:composition template="./predlozak.xhtml">
 
-            <ui:define name="top">
-                Home
-                <h:form style="float: right;">
-                    <h:commandButton value="Odjavi se" action="${index.logout()}" />
-                </h:form>
-                    
-                
-            </ui:define>
+                <ui:define name="naslov">
+                    #{j.NWTiSProjekt}
+                </ui:define>
 
-            <ui:define name="content">
-                <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
-                <h:outputText id="greska" value="#{pregledDnevnika.greska}"/>
-                <h:form>
-                    <h:panelGrid columns="3">
-                        <h:form id="azuriranjeForma">
-                            
-                            <br/><br/><br/>
-                            <h:outputLabel value="#{index.poruka}" id="porukaAzuriranje" />
-                            <h:outputLabel value="Ime" for="imeAzuriranje" />
-                            <h:inputText  value="#{index.ime}" id="imeAzuriranje" /><br/>
-                            <h:outputLabel value="Prezime" for="prezimeAzuriranje" />
-                            <h:inputText  value="#{index.prezime}" id="prezimeAzuriranje" /><br/>
-                            <h:outputLabel value="Korisničko ime" for="korisnickoImeAzuriranje" />
-                            <h:inputText  value="#{index.korisnickoIme}" id="korisnickoImeAzuriranje" /><br/>
-                            <h:outputLabel value="Lozinka" for="lozinkaAzuriranje" />
-                            <h:inputText  value="#{index.lozinka}" id="lozinkaAzuriranje" /><br/>
-                            <h:outputLabel value="Mail adresa" for="mailAzuriranje" />
-                            <h:inputText  value="#{index.mail}" id="mailAzuriranje" /><br/>
+                <ui:define name="top">
+                    #{j.pocetna}
+                    <h:form style="float: right;">
+                        <h:commandButton value="#{j.odjaviSe}" action="${index.logout()}" />
+                    </h:form>
 
-                            <h:commandButton value="Ažuriraj podatke" action="#{index.azurirajPodatke()}" >
-                                <f:ajax execute="imeAzuriranje prezimeAzuriranje korisnickoImeAzuriranje lozinkaAzuriranje mailAzuriranje porukaAzuriranje"/>
-                            </h:commandButton><br/>
-                        </h:form>
-                    </h:panelGrid>
-                    <h:panelGroup id="panelKorisnici">
-                        <h:dataTable value="#{index.korisnici}" var="d">
-                            <h:column>
-                                <f:facet name="header">ID</f:facet>
-                                <h:outputText value="#{d.ID}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Korisničko ime</f:facet>
-                                <h:outputText value="#{d.korisnickoIme}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Ime</f:facet>
-                                <h:outputText value="#{d.ime}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Prezime</f:facet>
-                                <h:outputText value="#{d.prezime}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Mail</f:facet>
-                                <h:outputText value="#{d.mail}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Tip korisnika</f:facet>
-                                <h:outputText value="#{d.tipKorisnika}" />
-                            </h:column>
-                        </h:dataTable>
-                    </h:panelGroup>
 
-                </h:form>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+                </ui:define>
+
+                <ui:define name="content">
+                    <h:form>
+                        <h:selectOneRadio value="#{lokalizacija.odabirJezika}">
+                            <f:selectItems value="#{lokalizacija.izbornik}" var="jezik"
+                                           itemLabel="#{jezik.labela}" itemValue="#{jezik.vrijednost}"/>
+                        </h:selectOneRadio><br/>
+                        <h:commandButton value="#{j.odaberiJezik}" action="#{lokalizacija.izaberiJezik()}" />
+                    </h:form>
+                    <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
+                    <h:outputText id="greska" value="#{pregledDnevnika.greska}"/>
+                    <h:form>
+                        <h:panelGrid columns="3">
+                            <h:form id="azuriranjeForma">
+
+                                <br/><br/><br/>
+                                <h:outputLabel value="#{index.poruka}" id="porukaAzuriranje" />
+                                <h:outputLabel value="#{j.ime}" for="imeAzuriranje" />
+                                <h:inputText  value="#{index.ime}" id="imeAzuriranje" /><br/>
+                                <h:outputLabel value="#{j.prezime}" for="prezimeAzuriranje" />
+                                <h:inputText  value="#{index.prezime}" id="prezimeAzuriranje" /><br/>
+                                <h:outputLabel value="#{j.korisnickoIme}" for="korisnickoImeAzuriranje" />
+                                <h:inputText  value="#{index.korisnickoIme}" id="korisnickoImeAzuriranje" /><br/>
+                                <h:outputLabel value="#{j.lozinka}" for="lozinkaAzuriranje" />
+                                <h:inputText  value="#{index.lozinka}" id="lozinkaAzuriranje" /><br/>
+                                <h:outputLabel value="#{j.mailAdresa}" for="mailAzuriranje" />
+                                <h:inputText  value="#{index.mail}" id="mailAzuriranje" /><br/>
+
+                                <h:commandButton value="#{j.azurirajPodatke}" action="#{index.azurirajPodatke()}" >
+                                    <f:ajax execute="imeAzuriranje prezimeAzuriranje korisnickoImeAzuriranje lozinkaAzuriranje mailAzuriranje porukaAzuriranje"/>
+                                </h:commandButton><br/>
+                            </h:form>
+                        </h:panelGrid>
+                        <h:panelGroup id="panelKorisnici">
+                            <h:dataTable value="#{index.korisnici}" var="d">
+                                <h:column>
+                                    <f:facet name="header">ID</f:facet>
+                                    <h:outputText value="#{d.ID}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{j.korisnickoIme}</f:facet>
+                                    <h:outputText value="#{d.korisnickoIme}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{j.ime}</f:facet>
+                                    <h:outputText value="#{d.ime}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{j.prezime}</f:facet>
+                                    <h:outputText value="#{d.prezime}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">^#{j.mailAdresa}</f:facet>
+                                    <h:outputText value="#{d.mail}" />
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{j.tipKorisnika}</f:facet>
+                                    <h:outputText value="#{d.tipKorisnika}" />
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGroup>
+
+                    </h:form>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
 </html>
 

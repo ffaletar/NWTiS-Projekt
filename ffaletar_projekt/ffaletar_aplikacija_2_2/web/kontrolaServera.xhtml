@@ -9,78 +9,74 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    <f:view locale="#{lokalizacija.odabirJezika}" > 
+        <head>
+            <title>TODO supply a title</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        </head>
+        <body>
 
-        <ui:composition template="./predlozak.xhtml">
+            <ui:composition template="./predlozak.xhtml">
 
-            <ui:define name="naslov">
-                NWTiS - Projekt
-            </ui:define>
+                <ui:define name="naslov">
+                    #{j.NWTiSProjekt}
+                </ui:define>
 
-            <ui:define name="top">
-                Kontrola servera
-                <h:form style="float: right;">
-                    <h:commandButton value="Odjavi se" action="${index.logout()}" />
-                </h:form>
+                <ui:define name="top">
+                    #{j.kontrolaServera}
+                    <h:form style="float: right;">
+                        <h:commandButton value="#{j.odjaviSe}" action="${index.logout()}" />
+                    </h:form>
 
 
-            </ui:define>
+                </ui:define>
 
-            <ui:define name="content">
-                <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
+                <ui:define name="content">
+                    <f:event type="preRenderView" listener="#{index.postaviPodatke()}" />
 
-                <h:form>
-                    <h:panelGrid columns="2">
-                        <h1>Primitivni poslužitelj</h1><br/>
-                        <h:panelGrid columns="4" style="width:80px; margin-left: 50px;">
-                            <h:commandButton value="Pokreni server" action="#{kontrolaServera.pokreniServer()}">
-                                <f:ajax render="porukaOServeru"/>
-                            </h:commandButton>
-                            <h:commandButton value="Potpuno zaustavi server" action="#{kontrolaServera.zaustaviServer()}">
-                                <f:ajax render="porukaOServeru"/>
-                            </h:commandButton>
-                            <h:commandButton value="Pauziraj server" action="#{kontrolaServera.pauzirajServer()}">
-                                <f:ajax render="porukaOServeru"/>
-                            </h:commandButton>
-                            <h:commandButton value="Pokreni server" action="#{kontrolaServera.dajStatusServera()}">
-                                <f:ajax render="porukaOServeru"/>
-                            </h:commandButton>
-                            <h:outputLabel value="#{kontrolaServera.porukaOServeru}" id="porukaOServeru" />
+                    <h:form>
+                        <h:panelGrid columns="2">
+                            <h1>#{j.primitivniPosluzitelj}</h1><br/>
+                            <h:panelGrid columns="4" style="width:80px; margin-left: 50px;">
+                                <h:commandButton value="#{j.pokreniServer}" action="#{kontrolaServera.pokreniServer()}">
+                                    <f:ajax render="porukaOServeru"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.zaustaviServer}" action="#{kontrolaServera.zaustaviServer()}">
+                                    <f:ajax render="porukaOServeru"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.pauzirajServer}" action="#{kontrolaServera.pauzirajServer()}">
+                                    <f:ajax render="porukaOServeru"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.statusServera}" action="#{kontrolaServera.dajStatusServera()}">
+                                    <f:ajax render="porukaOServeru"/>
+                                </h:commandButton>
+                                <h:outputLabel value="#{kontrolaServera.porukaOServeru}" id="porukaOServeru" />
+                            </h:panelGrid>
                         </h:panelGrid>
-                    </h:panelGrid>
-                    <h:panelGrid columns="2">
-                        <h1>IoT Master</h1><br/>
-                        <h:panelGrid columns="4" style="width:80px; margin-left: 50px;">
-                            <h:commandButton value="Registriraj grupu" action="#{kontrolaServera.registrirajGrupu()}">
-                                <f:ajax render="porukaOIoTMaster"/>
-                            </h:commandButton>
-                            <h:commandButton value="Odjavi grupu" action="#{kontrolaServera.odjaviGrupu()}">
-                                <f:ajax render="porukaOIoTMaster"/>
-                            </h:commandButton>
-                            <h:commandButton value="Aktiviraj grupu" action="#{kontrolaServera.aktivirajGrupu()}">
-                                <f:ajax render="porukaOIoTMaster"/>
-                            </h:commandButton>
-                            <h:commandButton value="Blokiraj grupu" action="#{kontrolaServera.blokirajGrupu()}">
-                                <f:ajax render="porukaOIoTMaster"/>
-                            </h:commandButton>
-                            <h:commandButton value="Dohvati status grupe" action="#{kontrolaServera.dohvatiStatusGrupe()}">
-                                <f:ajax render="porukaOIoTMaster"/>
-                            </h:commandButton>
-                            <h:outputLabel value="#{kontrolaServera.porukaOIoTMaster}" id="porukaOIoTMaster" />
+                        <h:panelGrid columns="2">
+                            <h1>#{j.iotMaster}</h1><br/>
+                            <h:panelGrid columns="4" style="width:80px; margin-left: 50px;">
+                                <h:commandButton value="#{j.registrirajGrupu}" action="#{kontrolaServera.registrirajGrupu()}">
+                                    <f:ajax render="porukaOIoTMaster"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.odjaviGrupu}" action="#{kontrolaServera.odjaviGrupu()}">
+                                    <f:ajax render="porukaOIoTMaster"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.aktivirajGrupu}" action="#{kontrolaServera.aktivirajGrupu()}">
+                                    <f:ajax render="porukaOIoTMaster"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.blokirajgrupu}" action="#{kontrolaServera.blokirajGrupu()}">
+                                    <f:ajax render="porukaOIoTMaster"/>
+                                </h:commandButton>
+                                <h:commandButton value="#{j.dohvatiStatusGrupe}" action="#{kontrolaServera.dohvatiStatusGrupe()}">
+                                    <f:ajax render="porukaOIoTMaster"/>
+                                </h:commandButton>
+                                <h:outputLabel value="#{kontrolaServera.porukaOIoTMaster}" id="porukaOIoTMaster" />
+                            </h:panelGrid>
                         </h:panelGrid>
-                    </h:panelGrid>
-                </h:form>
-
-            </ui:define>
-        </ui:composition>
-
-
-
-
-
-    </body>
+                    </h:form>
+                </ui:define>
+            </ui:composition>
+        </body>
+    </f:view>
 </html>

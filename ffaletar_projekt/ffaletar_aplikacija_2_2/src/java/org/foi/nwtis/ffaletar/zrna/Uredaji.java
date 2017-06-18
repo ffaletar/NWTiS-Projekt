@@ -42,6 +42,7 @@ public class Uredaji implements Serializable {
     private List<org.foi.nwtis.ffaletar.soap.klijenti.MeteoPodaci> meteoPodaciUVremenskomIntervalu;
     private List<org.foi.nwtis.ffaletar.soap.klijenti.MeteoPodaci> zadnjihNMeteoPodataka;
     private String adresaUredaja;
+    
 
     private String vrijemePocetak;
     private String vrijemeKraj;
@@ -55,6 +56,7 @@ public class Uredaji implements Serializable {
     private boolean meteoPodaciUVremenskomIntervaluPanel = false;
     private boolean zadnjihNMeteoPodatakaPanel = false;
     private boolean adresaUredajaPanel = false;
+    private boolean zadnjePreuzetiMeteoPodaciPanel = false;
 
     private String poruka;
 
@@ -67,6 +69,13 @@ public class Uredaji implements Serializable {
     private String meteoVlaga;
     private String meteoTlak;
     private String meteoNaziv;
+    
+    private String ZPmeteoNaziv;
+    private String ZPmeteoTemp;
+    private String ZPmeteoTempMin;
+    private String ZPmeteoTempMax;
+    private String ZPmeteoVlaga;
+    private String ZPmeteoTlak;
 
     /**
      * Creates a new instance of Uredaji
@@ -90,6 +99,56 @@ public class Uredaji implements Serializable {
         this.adresaUredaja = adresaUredaja;
     }
 
+    public String getZPmeteoNaziv() {
+        return ZPmeteoNaziv;
+    }
+
+    public void setZPmeteoNaziv(String ZPmeteoNaziv) {
+        this.ZPmeteoNaziv = ZPmeteoNaziv;
+    }
+
+    public String getZPmeteoTemp() {
+        return ZPmeteoTemp;
+    }
+
+    public void setZPmeteoTemp(String ZPmeteoTemp) {
+        this.ZPmeteoTemp = ZPmeteoTemp;
+    }
+
+    public String getZPmeteoTempMin() {
+        return ZPmeteoTempMin;
+    }
+
+    public void setZPmeteoTempMin(String ZPmeteoTempMin) {
+        this.ZPmeteoTempMin = ZPmeteoTempMin;
+    }
+
+    public String getZPmeteoTempMax() {
+        return ZPmeteoTempMax;
+    }
+
+    public void setZPmeteoTempMax(String ZPmeteoTempMax) {
+        this.ZPmeteoTempMax = ZPmeteoTempMax;
+    }
+
+    public String getZPmeteoVlaga() {
+        return ZPmeteoVlaga;
+    }
+
+    public void setZPmeteoVlaga(String ZPmeteoVlaga) {
+        this.ZPmeteoVlaga = ZPmeteoVlaga;
+    }
+
+    public String getZPmeteoTlak() {
+        return ZPmeteoTlak;
+    }
+
+    public void setZPmeteoTlak(String ZPmeteoTlak) {
+        this.ZPmeteoTlak = ZPmeteoTlak;
+    }
+    
+    
+
     public boolean isAdresaUredajaPanel() {
         return adresaUredajaPanel;
     }
@@ -105,6 +164,16 @@ public class Uredaji implements Serializable {
     public void setPoruka(String poruka) {
         this.poruka = poruka;
     }
+
+    public boolean isZadnjePreuzetiMeteoPodaciPanel() {
+        return zadnjePreuzetiMeteoPodaciPanel;
+    }
+
+    public void setZadnjePreuzetiMeteoPodaciPanel(boolean zadnjePreuzetiMeteoPodaciPanel) {
+        this.zadnjePreuzetiMeteoPodaciPanel = zadnjePreuzetiMeteoPodaciPanel;
+    }
+    
+    
 
     public String getVrijemePocetak() {
         return vrijemePocetak;
@@ -465,6 +534,38 @@ public class Uredaji implements Serializable {
 
         adresaUredajaPanel = true;
 
+    }
+    
+    
+    public void dohvatiZadnjePreuzeteMeteoPodatke(){
+        org.foi.nwtis.ffaletar.soap.klijenti.MeteoPodaci mp = new org.foi.nwtis.ffaletar.soap.klijenti.MeteoPodaci();
+        if (popisRaspoloziviIoT.size() == 1) {
+            idZaAzuriranje = popisRaspoloziviIoT.get(0);
+
+            
+            for (Iterator<Map.Entry<String, Uredjaj>> iterator = raspoloziviIoT.entrySet().iterator(); iterator.hasNext();) {
+                Map.Entry<String, Uredjaj> uredaj = iterator.next();
+
+                if (uredaj.getValue().toString().compareTo(idZaAzuriranje) == 0) {
+                    setZPmeteoNaziv(uredaj.getValue().getNaziv());
+
+                    mp = MeteoSOAP.zadnjiMeteoPodaciZaUredjaj(uredaj.getValue().getId());
+                    break;
+                }
+            }
+        } else {
+            poruka = "Niste odabrali uređaj";
+        }
+        
+        ZPmeteoTemp = mp.getTemperatureValue().toString();
+        ZPmeteoTempMax = mp.getTemperatureMin().toString();
+        ZPmeteoTempMin = mp.getTemperatureMin().toString();
+        ZPmeteoTlak = mp.getPressureValue().toString();
+        ZPmeteoVlaga = mp.getHumidityValue().toString();
+        
+        
+
+        zadnjePreuzetiMeteoPodaciPanel = true;
     }
 
 }

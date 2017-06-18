@@ -28,6 +28,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import org.foi.nwtis.ffaletar.baza.DnevnikBaza;
 import org.foi.nwtis.ffaletar.helpers.Helper;
 import org.foi.nwtis.ffaletar.konfiguracije.Konfiguracija;
 
@@ -53,6 +54,7 @@ public class ObradaZahtjeva extends Thread {
         super.run(); //To change body of generated methods, choose Tools | Templates.
         String poruka = "";
         String current = System.getProperty("user.dir");
+        Date pocetakObrade = new Date();
         System.out.println("Current working directory in Java : " + current);
         try {
             System.err.println("Moram pročitati komandu");
@@ -61,6 +63,10 @@ public class ObradaZahtjeva extends Thread {
 
             StringBuffer sb = new StringBuffer();
 
+            String ipAdresaKlijenta = ss.getRemoteSocketAddress().toString();
+            
+            System.out.println(">> Ip adresa klijenta " + ipAdresaKlijenta);
+            
             while (true) {
                 int znak = is.read();
                 if (znak == -1) {
@@ -78,7 +84,9 @@ public class ObradaZahtjeva extends Thread {
 
             Regex regex = new Regex(sb.toString());
             
-            
+            System.out.println("Id uredaja" + regex.getIdUredaja());
+            System.out.println("Naziv uredaja" + regex.getNazivUredaja());
+            System.out.println("Adresa uredaja" + regex.getAdresaUredaja());
             boolean korisnikPostoji = KorisnikBaza.provjeriKorisnika(regex.getKorisnickoIme(), regex.getLozinka());
             if (regex.isServer()) {
                 System.out.println("Usao u server regex");
@@ -132,11 +140,34 @@ public class ObradaZahtjeva extends Thread {
 
             } else if (regex.isIoT()) {
                 System.out.println("Usao u IoT regex");
+                if (korisnikPostoji) {
+                    Obrada obrada = new Obrada();
+                    if (naredba.contains("ADD")) {
+                        
+                        poruka = obrada.IoTAdd(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka(), Integer.parseInt(regex.getIdUredaja()), regex.getNazivUredaja(), regex.getAdresaUredaja());
+                    } else if(naredba.contains("WORK")){
+                        poruka = obrada.IoTWork(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka(), Integer.parseInt(regex.getIdUredaja()));
+                    }else if(naredba.contains("WAIT")){
+                        poruka = obrada.IoTWait(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka(), Integer.parseInt(regex.getIdUredaja()));
+                    }else if(naredba.contains("REMOVE")){
+                        poruka = obrada.IoTRemove(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka(), Integer.parseInt(regex.getIdUredaja()));
+                    }else if(naredba.contains("STATUS")){
+                        poruka = obrada.IoTStatus(KonfiguracijaHelper.getIoTMasterKorisnik(), KonfiguracijaHelper.getIoTMasterLozinka(), Integer.parseInt(regex.getIdUredaja()));
+                    }
+                } else {
+                    poruka = Obrada.getERR10();
+                }
+
             } else {
                 System.out.println("Nisam uspio ući u if regex");
             }
 
+            Date krajObrade = new Date();
+            
+            int trajanjeObrade = (int) (krajObrade.getTime() - pocetakObrade.getTime());
 
+            DnevnikBaza.upisiUDnevnik(regex.getKorisnickoIme(), "/ObradaZahtjeva", ipAdresaKlijenta, trajanjeObrade);
+            
             os.write(poruka.getBytes());
             os.flush();
             ss.shutdownOutput();

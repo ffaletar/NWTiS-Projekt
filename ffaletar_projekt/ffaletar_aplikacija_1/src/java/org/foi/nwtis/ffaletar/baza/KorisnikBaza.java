@@ -21,13 +21,36 @@ import org.foi.nwtis.ffaletar.podaci.Korisnik;
  */
 public class KorisnikBaza {
     
-    public static boolean provjeriKorisnika(String korisnickoIme, String lozinka){
+    public static boolean provjeriKorisnika(String korisnickoime, String lozinka){
         
-        //TODO ako je obicni korisnik vrati 1, ako je admin vrati 2, ako ne postoji korisnik vrati 0
+        String upit = "SELECT * FROM korisnik WHERE korisnickoime = '" +korisnickoime + "' AND lozinka = '" +lozinka+"'";
+        
+        Statement s = null;
+        ResultSet rs = null;
+        Baza baza = new Baza();
         
         
-        
-        return true;
+        try (Connection c = baza.dohvatiKonekciju();) {
+            s = (Statement) c.createStatement();
+            rs = s.executeQuery(upit);
+
+            if(rs.next()){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            try {
+                if (s != null) {
+                    s.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     
@@ -43,7 +66,8 @@ public class KorisnikBaza {
         try (Connection c = baza.dohvatiKonekciju();) {
             s = (Statement) c.createStatement();
             rs = s.executeUpdate(upit);
-
+            
+            
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(Baza.class.getName()).log(Level.SEVERE, null, ex);

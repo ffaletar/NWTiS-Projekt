@@ -156,6 +156,54 @@ public class Obrada {
         java.util.List<org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj> uredaji = IoT_Master.dajSveUredjajeGrupe(korisnickoIme, korisnickaLozinka);
         return getOK10(uredaji);
     }
+    
+    
+    public String IoTAdd(String korisnickoIme, String korisnickaLozinka, int uredaj, String naziv, String adresa) {
+        boolean uredajDodan = IoT_Master.dodajNoviUredjajGrupi(korisnickoIme, korisnickaLozinka, uredaj, naziv, adresa);
+        if (uredajDodan == true) {
+            return getOK10();
+        } else{
+            return getERR30();
+        }
+    }
+    
+    public String IoTWork(String korisnickoIme, String korisnickaLozinka, int uredaj) {
+        boolean uredajAktiviran = IoT_Master.aktivirajUredjajGrupe(korisnickoIme, korisnickaLozinka, uredaj);
+        if (uredajAktiviran == true) {
+            return getOK10();
+        } else{
+            return getERR31();
+        }
+    }
+    
+    
+    public String IoTWait(String korisnickoIme, String korisnickaLozinka, int uredaj) {
+        boolean uredajBlokiran = IoT_Master.blokirajUredjajGrupe(korisnickoIme, korisnickaLozinka, uredaj);
+        if (uredajBlokiran == true) {
+            return getOK10();
+        } else{
+            return getERR32();
+        }
+    }
+    
+    public String IoTRemove(String korisnickoIme, String korisnickaLozinka, int uredaj) {
+        boolean uredajObrisan = IoT_Master.obrisiUredjajGrupe(korisnickoIme, korisnickaLozinka, uredaj);
+        if (uredajObrisan == true) {
+            return getOK10();
+        } else{
+            return getERR33();
+        }
+    }
+    
+    public String IoTStatus(String korisnickoIme, String korisnickaLozinka, int uredaj) {
+        StatusUredjaja status = IoT_Master.dajStatusUredjajaGrupe(korisnickoIme, korisnickaLozinka, uredaj);
+        if (status.AKTIVAN != null) {
+            return getOK35();
+        } else{
+            return getOK34();
+        }
+    }
+    
 
     public static String getERR10() {
         return ERR10;
@@ -251,12 +299,14 @@ public class Obrada {
 
     public static String getOK10(java.util.List<org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj> IoTUredjaji) {
         String poruka = "";
+        String ukupnaPoruka = "";
         String porukaDodatak = OK10;
         for (org.foi.nwtis.ffaletar.soap.klijenti.Uredjaj IoT : IoTUredjaji) {
             poruka = " {IoT " + IoT.getId() + " " + IoT.getNaziv() + "}";
+            ukupnaPoruka =  ukupnaPoruka + poruka;
         }
-        poruka = porukaDodatak + poruka;
-        return poruka;
+        
+        return porukaDodatak + " " + ukupnaPoruka;
     }
 
     public static void setOK10(String OK10) {

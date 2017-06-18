@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -27,7 +28,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.foi.nwtis.ffaletar.baza.DnevnikBaza;
 import org.foi.nwtis.ffaletar.baza.KorisnikBaza;
+import org.foi.nwtis.ffaletar.helpers.KonfiguracijaHelper;
 import org.foi.nwtis.ffaletar.podaci.Korisnik;
 
 /**
@@ -40,6 +43,10 @@ public class KorisniciRESTResourceContainer {
 
     @Context
     private UriInfo context;
+
+    private Date pocetakObrade;
+    private Date krajObrade;
+    private int trajanjeObrade;
 
     /**
      * Creates a new instance of KorisniciRESTResourceContainer
@@ -56,6 +63,7 @@ public class KorisniciRESTResourceContainer {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson() {
+        setPocetakObrade();
         KorisnikBaza korisnikBaza = new KorisnikBaza();
         List<Korisnik> korisnici = korisnikBaza.dajSveKorisnike();
 
@@ -71,6 +79,11 @@ public class KorisniciRESTResourceContainer {
             job.add("tipKorisnika", korisnik.getTipKorisnika());
             jab.add(job);
         }
+        
+        setKrajObrade();
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        
+        
         return jab.build().toString();
     }
 
@@ -100,7 +113,7 @@ public class KorisniciRESTResourceContainer {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{korisnickoIme}")
     public String dajKorisnika(@PathParam("korisnickoIme") String korisnickoIme) {
-
+        setPocetakObrade();
         KorisnikBaza korisnikBaza = new KorisnikBaza();
         Korisnik korisnik = korisnikBaza.dajJednogKorisnika(korisnickoIme);
 
@@ -114,8 +127,14 @@ public class KorisniciRESTResourceContainer {
             job.add("mail", korisnik.getMail());
             job.add("tipKorisnika", korisnik.getTipKorisnika());
 
+            setKrajObrade();
+            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+
             return job.build().toString();
-        }else{
+        } else {
+            setKrajObrade();
+            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+
             return "";
         }
 
@@ -126,7 +145,7 @@ public class KorisniciRESTResourceContainer {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String dodajKorisnika(String content) {
-
+        setPocetakObrade();
         JsonReader reader = Json.createReader(new StringReader(content));
         JsonObject jo = reader.readObject();
         String korisnickoIme = jo.getString("korisnickoIme");
@@ -137,6 +156,9 @@ public class KorisniciRESTResourceContainer {
 
         KorisnikBaza korisnikBaza = new KorisnikBaza();
         boolean korisnikDodan = korisnikBaza.dodajKorisnika(korisnickoIme, ime, prezime, lozinka, mail);
+
+        setKrajObrade();
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
 
         if (korisnikDodan) {
             return "1";
@@ -150,6 +172,8 @@ public class KorisniciRESTResourceContainer {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/azurirajKorisnika")
     public String azurirajKorisnika(String content) {
+        setPocetakObrade();
+
         JsonReader reader = Json.createReader(new StringReader(content));
         JsonObject jo = reader.readObject();
         int id = jo.getInt("id");
@@ -163,11 +187,39 @@ public class KorisniciRESTResourceContainer {
         KorisnikBaza korisnikBaza = new KorisnikBaza();
         boolean korisnikAzuriran = korisnikBaza.azurirajKorisnika(id, korisnickoIme, ime, prezime, lozinka, mail, tipKorisnika);
 
+        setKrajObrade();
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+
         if (korisnikAzuriran) {
             return "1";
         } else {
             return "0";
         }
+    }
+
+    public Date getPocetakObrade() {
+        return pocetakObrade;
+    }
+
+    public void setPocetakObrade() {
+        this.pocetakObrade = new Date();
+    }
+
+    public Date getKrajObrade() {
+        return krajObrade;
+    }
+
+    public void setKrajObrade() {
+        this.krajObrade = new Date();
+    }
+
+    public int getTrajanjeObrade() {
+        trajanjeObrade = (int) (getKrajObrade().getTime() - getPocetakObrade().getTime());
+        return trajanjeObrade;
+    }
+
+    public void setTrajanjeObrade(int trajanjeObrade) {
+        this.trajanjeObrade = trajanjeObrade;
     }
 
 }

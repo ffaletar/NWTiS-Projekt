@@ -16,8 +16,9 @@ public class Regex {
     
     private final String sintaksaServer = "^USER ([^\\\\s]+); PASSWD ([^\\\\s]+); (PAUSE|START|STOP|STATUS);$";
     private final String sintaksaIoTMaster = "^USER ([^\\\\s]+); PASSWD ([^\\\\s]+); IoT_Master (START|STOP|WORK|WAIT|LOAD|CLEAR|STATUS|LIST);$";
-    private final String sintaksaIoT = "^USER ([^\\\\s]+); PASSWD ([^\\\\s]+); IoT (ADD '([^\\\\s]+)' '([^\\\\s]+)'|WORK|WAIT|REMOVE|STATUS);$";
-
+    private final String sintaksaIoT = "^USER ([^\\s]+); PASSWD ([^\\s]+); IoT (\\d{1,6}) (ADD '(.*)' '(.*)'|WORK|WORK|WAIT|REMOVE|STATUS);$";                   
+    
+    
     private boolean server;
     private boolean IoT;
     private boolean IoTMaster;
@@ -26,6 +27,9 @@ public class Regex {
     
     private String korisnickoIme;
     private String lozinka;
+    private String nazivUredaja;
+    private String adresaUredaja;
+    private String idUredaja;
     
     public Regex(String naredba) {
         this.naredba = naredba;
@@ -54,6 +58,22 @@ public class Regex {
         }else if(statusIoT){
             korisnickoIme = matcherIoT.group(1);
             lozinka = matcherIoT.group(2);
+            
+            
+            idUredaja = matcherIoT.group(3);
+            
+            if(matcherIoT.group(5) != null){
+                System.out.println("REGEX ---> naziv postoji");
+                nazivUredaja = matcherIoT.group(5);
+            }
+            if(matcherIoT.group(6) != null){
+                System.out.println("REGEX ---> adresa postoji");
+                adresaUredaja = matcherIoT.group(6);
+            }
+            System.out.println("Prošao sam if-ove");
+            
+            
+            
             server = false;
             IoT = true;
             IoTMaster = false;
@@ -93,5 +113,31 @@ public class Regex {
     public String getLozinka() {
         return lozinka;
     }
+
+    public String getNazivUredaja() {
+        return nazivUredaja;
+    }
+
+    public void setNazivUredaja(String nazivUredaja) {
+        this.nazivUredaja = nazivUredaja;
+    }
+
+    public String getAdresaUredaja() {
+        return adresaUredaja;
+    }
+
+    public void setAdresaUredaja(String adresaUredaja) {
+        this.adresaUredaja = adresaUredaja;
+    }
+
+    public String getIdUredaja() {
+        return idUredaja;
+    }
+
+    public void setIdUredaja(String idUredaja) {
+        this.idUredaja = idUredaja;
+    }
+    
+    
     
 }

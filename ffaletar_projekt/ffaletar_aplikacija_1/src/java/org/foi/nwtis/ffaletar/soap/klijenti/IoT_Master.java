@@ -78,6 +78,13 @@ public class IoT_Master {
     }
 
     public static Boolean dodajNoviUredjajGrupi(java.lang.String korisnickoIme, java.lang.String korisnickaLozinka, int idUredjaj, java.lang.String nazivUredjaj, java.lang.String adresaUredjaj) {
+        
+        System.out.println(">>Korisnicko ime " + korisnickoIme);
+        System.out.println(">>Lozinka " + korisnickaLozinka);
+        System.out.println(">>Id uredaja " + idUredjaj);
+        System.out.println(">>Naziv uredaja " + nazivUredjaj);
+        System.out.println(">>Adresa uredaja " + adresaUredjaj);
+        
         org.foi.nwtis.ffaletar.soap.klijenti.IoTMaster_Service service = new org.foi.nwtis.ffaletar.soap.klijenti.IoTMaster_Service();
         org.foi.nwtis.ffaletar.soap.klijenti.IoTMaster port = service.getIoTMasterPort();
         return port.dodajNoviUredjajGrupi(korisnickoIme, korisnickaLozinka, idUredjaj, nazivUredjaj, adresaUredjaj);
