@@ -31,7 +31,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/Korisnik/index.jsf</welcome-file>
-        <welcome-file>faces/Korisnik/pregledKorisnika.jsf</welcome-file>
+        <welcome-file>faces/index.jsf</welcome-file>
+        <welcome-file>faces/prijava.jsf</welcome-file>
     </welcome-file-list>
 </web-app>

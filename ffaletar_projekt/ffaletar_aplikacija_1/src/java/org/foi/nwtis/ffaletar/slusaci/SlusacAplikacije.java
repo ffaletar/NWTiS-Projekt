@@ -26,7 +26,6 @@ import org.foi.nwtis.ffaletar.baza.KorisnikBaza;
 import org.foi.nwtis.ffaletar.baza.MeteoBaza;
 import org.foi.nwtis.ffaletar.dretve.PreuzmiMeteoPodatke;
 import org.foi.nwtis.ffaletar.dretve.Server;
-import org.foi.nwtis.ffaletar.dretve.SlanjeZahtjeva;
 import org.foi.nwtis.ffaletar.konfiguracije.Konfiguracija;
 import org.foi.nwtis.ffaletar.konfiguracije.KonfiguracijaApstraktna;
 import org.foi.nwtis.ffaletar.konfiguracije.NeispravnaKonfiguracija;
@@ -67,8 +66,6 @@ public class SlusacAplikacije implements ServletContextListener {
         Server server = new Server();
         server.start();
 
-//        SlanjeZahtjeva slanjeZahtjeva = new SlanjeZahtjeva();
-//        slanjeZahtjeva.start();
     }
 
     @Override

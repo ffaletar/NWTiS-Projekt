@@ -49,28 +49,34 @@ public class PreuzmiMeteoPodatke extends Thread {
         Map<Lokacija, Uredjaj> listaLokacija = null;
         while (true) {
             if (isZaustavljena()) {
+                System.out.println("Dretva je zaustavljena");
                 break;
             }
 
             if (isPauzirana()) {
                 System.out.println("Dretva je pauzirana");
             } else {
+                System.out.println("Još jedan krug");
                 listaLokacija = uredajiBaza.dohvatiSveLokacije();
 
                 for (Map.Entry<Lokacija, Uredjaj> uredjaj : listaLokacija.entrySet()) {
                     if (!lokacijaMeteo.isEmpty()) {
+                        boolean postoji = false;
                         for (Map.Entry<Lokacija, MeteoPodaci> lokacijaMeteoPodatak : lokacijaMeteo.entrySet()) {
                             if (lokacijaMeteoPodatak.getKey().getLatitude().equals(uredjaj.getKey().getLatitude()) && lokacijaMeteoPodatak.getKey().getLongitude().equals(uredjaj.getKey().getLongitude())) {
                                 meteoBaza.dodajMeteo(lokacijaMeteoPodatak.getValue(), uredjaj.getValue());
-                            } else {
-                                OWMKlijent client = new OWMKlijent();
-                                MeteoPodaci meteo = client.getRealTimeWeather(uredjaj.getKey().getLatitude(), uredjaj.getKey().getLongitude());
-
-                                lokacijaMeteo.put(uredjaj.getKey(), meteo);
-
-                                meteoBaza.dodajMeteo(meteo, uredjaj.getValue());
-                            }
+                                postoji = true;
+                                break;
+                            } 
                         }
+                        if (!postoji) {
+                            OWMKlijent client = new OWMKlijent();
+                            MeteoPodaci meteo = client.getRealTimeWeather(uredjaj.getKey().getLatitude(), uredjaj.getKey().getLongitude());
+
+                            lokacijaMeteo.put(uredjaj.getKey(), meteo);
+
+                            meteoBaza.dodajMeteo(meteo, uredjaj.getValue());
+                        } 
                     } else {
                         OWMKlijent client = new OWMKlijent();
                         MeteoPodaci meteo = client.getRealTimeWeather(uredjaj.getKey().getLatitude(), uredjaj.getKey().getLongitude());
@@ -112,16 +118,16 @@ public class PreuzmiMeteoPodatke extends Thread {
         PreuzmiMeteoPodatke.zaustavljena = zaustavljena;
     }
 
-    public static int dohvatiStatusDretve(){
-        if(isZaustavljena()){
+    public static int dohvatiStatusDretve() {
+        if (isZaustavljena()) {
             return 15;
-        }else{
-            if(isPauzirana()){
+        } else {
+            if (isPauzirana()) {
                 return 13;
-            }else{
+            } else {
                 return 14;
             }
         }
     }
-    
+
 }

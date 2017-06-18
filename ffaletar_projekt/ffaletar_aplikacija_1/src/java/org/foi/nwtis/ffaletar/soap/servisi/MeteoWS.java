@@ -50,7 +50,7 @@ public class MeteoWS {
         
         setKrajObrade();
         
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjiMeteoPodaciZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjiMeteoPodaciZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade(), 0);
         
         return meteoPodaci;
     }
@@ -63,7 +63,7 @@ public class MeteoWS {
         
         setKrajObrade();
         
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
         
         return meteoPodaci;
     }
@@ -76,7 +76,7 @@ public class MeteoWS {
         List<MeteoPodaci> meteoPodaci = meteoBaza.dohvatiZadnjeMeteoPodatakaZaUredjajUVremenskomRazdoblju(IoTUredjaj,pocetak, kraj);
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
         
         return meteoPodaci;
     }
@@ -89,7 +89,7 @@ public class MeteoWS {
         MeteoPodaci meteoPodaci = oWMKlijent.getRealTimeWeatherById(IoTUredjaj);
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
         
         return meteoPodaci;
     }
@@ -108,7 +108,7 @@ public class MeteoWS {
         String adresa = gmk.getAddress(lokacija);
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "/MeteoWS/zadnjihNMeteoPodatakaZaUredjaj", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
         
         return adresa;
     }

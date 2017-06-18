@@ -78,7 +78,7 @@ public class UredajiRESTResourceContainer {
         
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         return jab.build().toString();
     }
@@ -102,7 +102,7 @@ public class UredajiRESTResourceContainer {
 
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         
         return job.build().toString();
@@ -147,7 +147,7 @@ public class UredajiRESTResourceContainer {
 
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         
         if (uredjajDodan) {
@@ -175,7 +175,7 @@ public class UredajiRESTResourceContainer {
 
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         
         if (korisnikAzuriran) {

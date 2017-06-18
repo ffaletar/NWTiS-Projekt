@@ -166,7 +166,7 @@ public class ObradaZahtjeva extends Thread {
             
             int trajanjeObrade = (int) (krajObrade.getTime() - pocetakObrade.getTime());
 
-            DnevnikBaza.upisiUDnevnik(regex.getKorisnickoIme(), "/ObradaZahtjeva", ipAdresaKlijenta, trajanjeObrade);
+            DnevnikBaza.upisiUDnevnik(regex.getKorisnickoIme(), "/ObradaZahtjeva", ipAdresaKlijenta, trajanjeObrade,1);
             
             os.write(poruka.getBytes());
             os.flush();

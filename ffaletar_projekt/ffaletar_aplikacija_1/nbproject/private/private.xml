@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/H:/NWTiS/NWTIS_projekt/ffaletar_projekt/ffaletar_aplikacija_1/src/java/org/foi/nwtis/ffaletar/baza/KorisnikBaza.java</file>
+            <file>file:/H:/NWTiS/NWTIS_projekt/ffaletar_projekt/ffaletar_aplikacija_1/web/prijava.xhtml</file>
+            <file>file:/H:/NWTiS/NWTIS_projekt/ffaletar_projekt/ffaletar_aplikacija_1/src/java/org/foi/nwtis/ffaletar/zrna/Index.java</file>
+            <file>file:/H:/NWTiS/NWTIS_projekt/ffaletar_projekt/ffaletar_aplikacija_1/src/java/org/foi/nwtis/ffaletar/zrna/Prijava.java</file>
+            <file>file:/H:/NWTiS/NWTIS_projekt/ffaletar_projekt/ffaletar_aplikacija_1/web/index.xhtml</file>
+        </group>
     </open-files>
 </project-private>

@@ -14,7 +14,7 @@
 <entry key="dbKorisnickoIme">korisnik</entry>
 <entry key="dbLozinka">korisnik</entry>
 <entry key="dbServer">jdbc:mysql://127.0.0.1/nwtis_ffaletar_bp_1</entry>
-<entry key="intervalDretveZaMeteoPodatke">10</entry>
+<entry key="intervalDretveZaMeteoPodatke">100</entry>
 <entry key="apiKeyOWM">927bb9d6c2fe92d55e85a31ec31b1be9</entry>
 <entry key="port">9000</entry>
 <entry key="host">127.0.0.1</entry>
@@ -24,4 +24,5 @@
 <entry key="mailPredmet">Izvještaj</entry>
 <entry key="IoTMasterKorisnik">ffaletar</entry>
 <entry key="IoTMasterLozinka">RdHLr</entry>
+<entry key="brojPrikaza">15</entry>
 </properties>

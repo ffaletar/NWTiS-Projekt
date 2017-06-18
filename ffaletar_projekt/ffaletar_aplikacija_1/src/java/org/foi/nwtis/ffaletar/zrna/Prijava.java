@@ -5,55 +5,93 @@
  */
 package org.foi.nwtis.ffaletar.zrna;
 
+import java.io.IOException;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+//import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
+import javax.servlet.http.HttpSession;
+import org.foi.nwtis.ffaletar.baza.Baza;
+import org.foi.nwtis.ffaletar.baza.KorisnikBaza;
+import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author Filip
  */
 @Named(value = "prijava")
-@RequestScoped
-public class Prijava {
+@SessionScoped
+public class Prijava implements Serializable {
 
-    private String username;
-    private String password;
+    private String korisnickoImePrijava;
+    private String lozinkaPrijava;
+    private String porukaPrijava;
 
+    private HttpSession session;
+    private FacesContext context;
+
+    /**
+     * Creates a new instance of Prijava
+     */
     public Prijava() {
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
     }
 
-    public String getUsername() {
-        return username;
+    public String getKorisnickoImePrijava() {
+        return korisnickoImePrijava;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setKorisnickoImePrijava(String korisnickoImePrijava) {
+        this.korisnickoImePrijava = korisnickoImePrijava;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLozinkaPrijava() {
+        return lozinkaPrijava;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLozinkaPrijava(String lozinkaPrijava) {
+        this.lozinkaPrijava = lozinkaPrijava;
     }
 
-    
-    
-    public String login() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        try {
-            request.login(this.username, this.password);
-        } catch (ServletException e) {
-            context.addMessage(null, new FacesMessage("Login failed."));
-            return "/error.jsf";
+    public String getPorukaPrijava() {
+        return porukaPrijava;
+    }
+
+    public void setPorukaPrijava(String porukaPrijava) {
+        this.porukaPrijava = porukaPrijava;
+    }
+
+    public void prijaviSe() {
+
+        boolean korisnikPrijavljen = KorisnikBaza.provjeriKorisnika(getKorisnickoImePrijava(), getLozinkaPrijava());
+
+        if (korisnikPrijavljen) {
+
+            session = BeanHelper.pokreniSesiju(session, getKorisnickoImePrijava(), getLozinkaPrijava());
+
+        } else {
+            porukaPrijava = "Ne postoji korisnik s unesenim korisničkim podacima";
         }
-        return "/Korisnik/index.jsf";
+
+    }
+
+    public void preusmjeriAkoJeAktivnaSesija() {
+        if (session.getAttribute("korisnickoIme") != null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/ffaletar_aplikacija_1/index.jsf");
+            } catch (IOException ex) {
+                Logger.getLogger(Prijava.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

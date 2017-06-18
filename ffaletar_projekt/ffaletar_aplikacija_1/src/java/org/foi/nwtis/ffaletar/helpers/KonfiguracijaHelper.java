@@ -25,6 +25,7 @@ public class KonfiguracijaHelper {
     private static String mailPredmet;
     private static String IoTMasterKorisnik;
     private static String IoTMasterLozinka;
+    private static int brojPrikaza;
     
     private static Konfiguracija konfiguracija;
 
@@ -80,6 +81,10 @@ public class KonfiguracijaHelper {
 
     public static String getIoTMasterLozinka() {
         return konfiguracija.dajPostavku("IoTMasterLozinka");
+    }
+
+    public static int getBrojPrikaza() {
+        return Integer.parseInt(konfiguracija.dajPostavku("brojPrikaza"));
     }
     
     

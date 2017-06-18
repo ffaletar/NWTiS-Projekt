@@ -81,7 +81,7 @@ public class KorisniciRESTResourceContainer {
         }
         
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
         
         
         return jab.build().toString();
@@ -128,12 +128,12 @@ public class KorisniciRESTResourceContainer {
             job.add("tipKorisnika", korisnik.getTipKorisnika());
 
             setKrajObrade();
-            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
             return job.build().toString();
         } else {
             setKrajObrade();
-            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+            DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
             return "";
         }
@@ -158,7 +158,7 @@ public class KorisniciRESTResourceContainer {
         boolean korisnikDodan = korisnikBaza.dodajKorisnika(korisnickoIme, ime, prezime, lozinka, mail);
 
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         if (korisnikDodan) {
             return "1";
@@ -188,7 +188,7 @@ public class KorisniciRESTResourceContainer {
         boolean korisnikAzuriran = korisnikBaza.azurirajKorisnika(id, korisnickoIme, ime, prezime, lozinka, mail, tipKorisnika);
 
         setKrajObrade();
-        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade());
+        DnevnikBaza.upisiUDnevnik(KonfiguracijaHelper.getIoTMasterKorisnik(), "KorisniciREST/azurirajKorisnika", KonfiguracijaHelper.getHost(), getTrajanjeObrade(),0);
 
         if (korisnikAzuriran) {
             return "1";
